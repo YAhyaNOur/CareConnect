@@ -1,0 +1,437 @@
+{% extends 'users/base.html' %}
+{% block title %}Espace Patient - CareConnect{% endblock %}
+
+{% block extra_css %}
+<style>
+    .patient-header {
+        margin-bottom: 3rem;
+        background: linear-gradient(135deg, var(--primary-light) 0%, #e0e7ff 100%);
+        border-radius: var(--radius-xl);
+        padding: 3rem;
+        border: 1px solid rgba(37, 99, 235, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .patient-header::before {
+        content: '';
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .patient-header h2 {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 2.25rem;
+        color: var(--dark);
+        margin-bottom: 1rem;
+        letter-spacing: -0.8px;
+    }
+
+    .patient-header p {
+        color: var(--text-muted);
+        font-size: 1.05rem;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        line-height: 1.6;
+    }
+
+    /* Search Form */
+    .search-card {
+        background: white;
+        border-radius: 16px;
+        padding: 0.5rem;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border-color);
+        max-width: 650px;
+        transition: var(--transition);
+    }
+
+    .search-card:focus-within {
+        box-shadow: var(--shadow-lg);
+        border-color: rgba(37, 99, 235, 0.25);
+    }
+
+    .search-input-group {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .search-icon {
+        color: var(--text-muted);
+        font-size: 1.25rem;
+        padding-left: 1.25rem;
+        padding-right: 0.75rem;
+    }
+
+    .search-field {
+        border: none !important;
+        background: transparent !important;
+        padding: 0.85rem 0.5rem !important;
+        font-size: 1rem !important;
+        color: var(--dark) !important;
+        flex: 1;
+        width: 100%;
+        outline: none;
+    }
+
+    .search-field::placeholder {
+        color: var(--text-muted);
+    }
+
+    .search-btn-premium {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 0.8rem 1.75rem;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+    .search-btn-premium:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    /* Doctor Grid and Cards */
+    .doctor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .doctor-card-premium {
+        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .doctor-card-premium:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-4px);
+        border-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .doctor-profile-section {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .doctor-avatar-circle {
+        width: 54px;
+        height: 54px;
+        background-color: var(--success-light);
+        color: var(--success);
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.25rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(16, 185, 129, 0.08);
+        flex-shrink: 0;
+    }
+
+    .doctor-info h4 {
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 0.25rem;
+    }
+
+    .doctor-specialty-badge {
+        display: inline-block;
+        background-color: var(--primary-light);
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 0.775rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .doctor-details-list {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        color: var(--text-main);
+    }
+
+    .doctor-details-list li {
+        margin-bottom: 0.6rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .doctor-details-list li i {
+        color: var(--text-muted);
+        width: 16px;
+        text-align: center;
+    }
+
+    /* Appointment Form Zone */
+    .appointment-booking-box {
+        background-color: #f8fafc;
+        border: 1px solid var(--border-color);
+        padding: 1.25rem;
+        border-radius: 12px;
+        transition: var(--transition);
+    }
+
+    .appointment-booking-box label {
+        font-weight: 600;
+        color: var(--dark);
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .appointment-booking-box input[type="datetime-local"] {
+        width: 100%;
+        padding: 0.65rem 0.85rem;
+        border: 1.5px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: var(--dark);
+        background-color: white;
+        transition: var(--transition);
+        margin-bottom: 0.75rem;
+        font-family: inherit;
+    }
+
+    .appointment-booking-box input[type="datetime-local"]:focus {
+        border-color: var(--success);
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        outline: none;
+    }
+
+    .btn-booking-submit {
+        width: 100%;
+        background-color: var(--success);
+        color: white;
+        border: none;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.925rem;
+        transition: var(--transition);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .btn-booking-submit:hover {
+        background-color: #059669;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    }
+
+    .booking-feedback-msg {
+        margin-top: 0.75rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: none;
+        padding: 0.5rem;
+        border-radius: 6px;
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="patient-header">
+    <h2>Bonjour et bienvenue !</h2>
+    <p>Trouvez le médecin ou spécialiste adapté à vos besoins et planifiez votre rendez-vous de consultation en ligne en quelques secondes.</p>
+    
+    <!-- Search Bar -->
+    <form method="get" class="search-card">
+        <div class="search-input-group">
+            <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input type="text" name="specialite" class="search-field" 
+                   placeholder="Ex: Pédiatre, Cardiologue, Dentiste..." 
+                   value="{{ specialite|default:'' }}">
+            <button class="search-btn-premium" type="submit">
+                Rechercher
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Results Area -->
+{% if medecins %}
+    <h3 class="mb-4 fw-bold" style="font-family: var(--font-display); color: var(--dark);">Médecins disponibles ({{ medecins|length }}) :</h3>
+    
+    <div class="doctor-grid">
+    {% for med in medecins %}
+        <div class="doctor-card-premium">
+            <div>
+                <div class="doctor-profile-section">
+                    <div class="doctor-avatar-circle">
+                        {{ med.firstname|slice:":1" }}{{ med.lastname|slice:":1" }}
+                    </div>
+                    <div class="doctor-info">
+                        <h4>Dr. {{ med.firstname }} {{ med.lastname }}</h4>
+                        <span class="doctor-specialty-badge">{{ med.specialite|default:"Généraliste" }}</span>
+                    </div>
+                </div>
+                
+                <ul class="doctor-details-list">
+                    <li>
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        <span>{{ med.localisation_cabinet|default:"Adresse non spécifiée" }}</span>
+                    </li>
+                    {% if med.telephonenumber %}
+                    <li>
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+216 {{ med.telephonenumber }}</span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            
+            <!-- Booking box -->
+            <div class="appointment-booking-box">
+                <label for="datetime-{{ med.id }}">Planifier une consultation :</label>
+                <input type="datetime-local" class="booking-datetime" id="datetime-{{ med.id }}" required>
+                <button class="btn-booking-submit" id="btn-booking-{{ med.id }}" onclick="takeAppointment('{{ med.id }}')">
+                    <i class="fa-regular fa-calendar-check"></i> Confirmer le RDV
+                </button>
+                <div class="booking-feedback-msg" id="msg-{{ med.id }}"></div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% elif specialite %}
+    <div class="alert alert-warning border-0 rounded-4 p-4 d-flex align-items-center gap-3">
+        <i class="fa-solid fa-circle-exclamation fs-3"></i>
+        <div>
+            <h5 class="alert-heading fw-bold mb-1">Aucun résultat trouvé</h5>
+            <p class="mb-0">Nous n'avons trouvé aucun médecin pour la spécialité "{{ specialite }}". Veuillez vérifier l'orthographe ou essayer un autre terme.</p>
+        </div>
+    </div>
+{% else %}
+    <div class="text-center py-5">
+        <i class="fa-solid fa-user-doctor fs-1 text-muted mb-3 opacity-30"></i>
+        <h4 class="text-muted fw-bold">Recherchez un médecin ci-dessus</h4>
+        <p class="text-muted">Utilisez la barre de recherche par spécialité pour trouver votre praticien de santé.</p>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function takeAppointment(medecinId) {
+    const datetimeInput = document.getElementById('datetime-' + medecinId);
+    const bookingBtn = document.getElementById('btn-booking-' + medecinId);
+    const feedbackMsg = document.getElementById('msg-' + medecinId);
+    const appointmentDate = datetimeInput.value;
+
+    if (!appointmentDate) {
+        showFeedback(feedbackMsg, '❌ Veuillez choisir une date et une heure', 'danger');
+        return;
+    }
+
+    const selectedDate = new Date(appointmentDate);
+    const now = new Date();
+    
+    if (selectedDate <= now) {
+        showFeedback(feedbackMsg, '❌ Veuillez choisir une date future', 'danger');
+        return;
+    }
+
+    // Button loading state
+    const originalBtnText = bookingBtn.innerHTML;
+    bookingBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Traitement...';
+    bookingBtn.disabled = true;
+
+    fetch("{% url 'appointments:patient_take_appointment' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({
+            medecin_id: medecinId,
+            appointment_date: appointmentDate
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Reset button
+        bookingBtn.innerHTML = originalBtnText;
+        bookingBtn.disabled = false;
+
+        if (data.success) {
+            showFeedback(feedbackMsg, '🎉 RDV pris avec succès !', 'success');
+            datetimeInput.value = ''; // Reset input
+        } else {
+            showFeedback(feedbackMsg, '❌ ' + (data.message || 'Créneau indisponible'), 'danger');
+        }
+    })
+    .catch(err => {
+        console.error('Erreur:', err);
+        bookingBtn.innerHTML = originalBtnText;
+        bookingBtn.disabled = false;
+        showFeedback(feedbackMsg, '❌ Erreur réseau. Veuillez réessayer.', 'danger');
+    });
+}
+
+function showFeedback(element, message, type) {
+    element.innerHTML = message;
+    element.style.display = 'block';
+    if (type === 'success') {
+        element.style.backgroundColor = 'var(--success-light)';
+        element.style.color = 'var(--success)';
+    } else {
+        element.style.backgroundColor = 'var(--danger-light)';
+        element.style.color = 'var(--danger)';
+    }
+    
+    setTimeout(() => {
+        element.style.display = 'none';
+    }, 4000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    const tomorrowStr = tomorrow.toISOString().split('T')[0];
+    
+    const datetimeInputs = document.querySelectorAll('.booking-datetime');
+    datetimeInputs.forEach(function(input) {
+        input.min = tomorrowStr + 'T08:00';
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,300 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Accueil - CareConnect{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        text-align: center;
+        padding: 4rem 1rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background-color: var(--primary-light);
+        color: var(--primary);
+        padding: 0.5rem 1.25rem;
+        border-radius: 9999px;
+        font-weight: 700;
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(37, 99, 235, 0.15);
+    }
+
+    .hero-title {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 3.5rem;
+        line-height: 1.2;
+        letter-spacing: -1.5px;
+        margin-bottom: 1.5rem;
+        color: var(--dark);
+    }
+
+    .hero-title span {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        line-height: 1.8;
+        margin-bottom: 3rem;
+    }
+
+    /* Cards Grid */
+    .portal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .portal-card {
+        background-color: white;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-xl);
+        padding: 2.5rem;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .portal-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        transition: var(--transition);
+    }
+
+    .card-doctor::before { background: var(--primary); }
+    .card-patient::before { background: var(--success); }
+    .card-psy::before { background: var(--secondary); }
+
+    .portal-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .card-doctor:hover { border-color: rgba(37, 99, 235, 0.25); }
+    .card-patient:hover { border-color: rgba(16, 185, 129, 0.25); }
+    .card-psy:hover { border-color: rgba(79, 70, 229, 0.25); }
+
+    .card-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        margin-bottom: 2rem;
+        transition: var(--transition);
+    }
+
+    .card-doctor .card-icon {
+        background-color: var(--primary-light);
+        color: var(--primary);
+    }
+    .card-patient .card-icon {
+        background-color: var(--success-light);
+        color: var(--success);
+    }
+    .card-psy .card-icon {
+        background-color: var(--secondary-light);
+        color: var(--secondary);
+    }
+
+    .portal-card:hover .card-icon {
+        transform: scale(1.1) rotate(3deg);
+    }
+
+    .card-title {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--dark);
+        margin-bottom: 1rem;
+    }
+
+    .card-text {
+        color: var(--text-muted);
+        font-size: 0.975rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    .card-features {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 2.5rem;
+    }
+
+    .card-features li {
+        font-size: 0.9rem;
+        color: var(--text-main);
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .card-features li i {
+        font-size: 0.85rem;
+    }
+
+    .card-doctor .card-features li i { color: var(--primary); }
+    .card-patient .card-features li i { color: var(--success); }
+    .card-psy .card-features li i { color: var(--secondary); }
+
+    .btn-access {
+        width: 100%;
+        padding: 0.9rem;
+        border-radius: 12px;
+        font-weight: 700;
+        text-align: center;
+        text-decoration: none;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 1rem;
+    }
+
+    .btn-doctor {
+        background-color: var(--primary);
+        color: white;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+    .btn-doctor:hover {
+        background-color: var(--primary-hover);
+        color: white;
+        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+    }
+
+    .btn-patient {
+        background-color: var(--success);
+        color: white;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    }
+    .btn-patient:hover {
+        background-color: #059669;
+        color: white;
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+    }
+
+    .btn-psy {
+        background-color: var(--secondary);
+        color: white;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+    }
+    .btn-psy:hover {
+        background-color: var(--secondary-hover);
+        color: white;
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.25);
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+        .hero-section {
+            padding: 2rem 0;
+        }
+        .portal-card {
+            padding: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-badge">
+        <i class="fa-solid fa-sparkles"></i> Simplifiez votre parcours santé
+    </div>
+    <h1 class="hero-title">Bienvenue sur <span>CareConnect</span></h1>
+    <p class="hero-desc">
+        La plateforme intelligente qui connecte harmonieusement patients, médecins et psychologues. Planifiez vos consultations, suivez vos patients et gérez votre cabinet en toute sérénité.
+    </p>
+</div>
+
+<div class="portal-grid">
+    <!-- Espace Médecin -->
+    <div class="portal-card card-doctor">
+        <div>
+            <div class="card-icon">
+                <i class="fa-solid fa-user-md"></i>
+            </div>
+            <h3 class="card-title">Espace Médecin</h3>
+            <p class="card-text">
+                Gérez votre agenda professionnel de santé avec précision. Consultez vos fiches patients, organisez vos rendez-vous et optimisez votre cabinet en quelques clics.
+            </p>
+            <ul class="card-features">
+                <li><i class="fa-solid fa-circle-check"></i> Calendrier intelligent interactif</li>
+                <li><i class="fa-solid fa-circle-check"></i> Suivi des fiches médicales</li>
+                <li><i class="fa-solid fa-circle-check"></i> Notifications automatiques par email</li>
+            </ul>
+        </div>
+        <a href="{% url 'users:medecin_login' %}" class="btn-access btn-doctor">
+            Espace Médecin <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        </a>
+    </div>
+
+    <!-- Espace Patient -->
+    <div class="portal-card card-patient">
+        <div>
+            <div class="card-icon">
+                <i class="fa-solid fa-user-injured"></i>
+            </div>
+            <h3 class="card-title">Espace Patient</h3>
+            <p class="card-text">
+                Trouvez facilement un médecin ou un spécialiste à proximité. Réservez vos rendez-vous instantanément, gérez vos consultations et communiquez avec vos praticiens.
+            </p>
+            <ul class="card-features">
+                <li><i class="fa-solid fa-circle-check"></i> Recherche par spécialité</li>
+                <li><i class="fa-solid fa-circle-check"></i> Prise de rendez-vous en ligne rapide</li>
+                <li><i class="fa-solid fa-circle-check"></i> Suivi d'historique de consultations</li>
+            </ul>
+        </div>
+        <a href="{% url 'users:login_patient' %}" class="btn-access btn-patient">
+            Espace Patient <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        </a>
+    </div>
+
+    <!-- Espace Psychologue -->
+    <div class="portal-card card-psy">
+        <div>
+            <div class="card-icon">
+                <i class="fa-solid fa-brain"></i>
+            </div>
+            <h3 class="card-title">Espace Psychologue</h3>
+            <p class="card-text">
+                Accompagnez vos patients dans leur bien-être mental. Suivez vos consultations, gérez vos dossiers de psychothérapie et configurez votre profil professionnel.
+            </p>
+            <ul class="card-features">
+                <li><i class="fa-solid fa-circle-check"></i> Profil certifié en ligne</li>
+                <li><i class="fa-solid fa-circle-check"></i> Gestion confidentielle des thérapies</li>
+                <li><i class="fa-solid fa-circle-check"></i> Outils de téléchargement de diplômes</li>
+            </ul>
+        </div>
+        <a href="{% url 'users:login_psy' %}" class="btn-access btn-psy">
+            Espace Psychologue <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Vérification Email - CareConnect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #4f46e5;
+            --gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            --shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1);
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition: all 0.3s ease;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+            padding: 3rem;
+            width: 100%;
+            max-width: 460px;
+            text-align: center;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+        }
+
+        .icon-badge {
+            width: 70px;
+            height: 70px;
+            background: #eff6ff;
+            color: var(--primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 2rem auto;
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.08);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-weight: 800;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        p.desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 1px solid transparent;
+        }
+
+        .alert-success {
+            color: #047857;
+            background-color: #ecfdf5;
+            border-color: rgba(16, 185, 129, 0.15);
+        }
+
+        .alert-error {
+            color: #b91c1c;
+            background-color: #fef2f2;
+            border-color: rgba(239, 68, 68, 0.15);
+        }
+
+        .alert-info {
+            color: var(--primary);
+            background-color: #eff6ff;
+            border-color: rgba(37, 99, 235, 0.15);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.875rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1rem 0.85rem 2.85rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+            background-color: white;
+        }
+
+        .form-control:focus + .input-icon {
+            color: var(--primary);
+        }
+
+        .btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+        }
+
+        .actions-footer {
+            margin-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .actions-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .actions-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="icon-badge">
+        <i class="fa-regular fa-envelope-open"></i>
+    </div>
+    <h2>Vérification de compte</h2>
+    <p class="desc">Un code de vérification à 6 chiffres a été envoyé à votre adresse email professionnelle. Veuillez le renseigner ci-dessous.</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}error{% else %}{{ message.tags }}{% endif %}">
+                {% if message.tags == 'error' %}
+                    <i class="fa-solid fa-circle-xmark"></i>
+                {% else %}
+                    <i class="fa-solid fa-circle-check"></i>
+                {% endif %}
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">
+            <i class="fa-solid fa-circle-info"></i> Code envoyé par email.
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Adresse email professionnelle</label>
+            <div class="input-wrapper">
+                <input type="email" class="form-control" name="email" placeholder="Ex: dr.benali@careconnect.tn" required>
+                <i class="fa-regular fa-envelope input-icon"></i>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Code de vérification</label>
+            <div class="input-wrapper">
+                <input type="text" class="form-control" name="code" placeholder="Entrez le code à 6 chiffres" required maxlength="6" pattern="[0-9]{6}">
+                <i class="fa-solid fa-shield-halved input-icon"></i>
+            </div>
+        </div>
+        <button type="submit" class="btn"><i class="fa-solid fa-circle-check"></i> Confirmer la vérification</button>
+    </form>
+
+    <div class="actions-footer">
+        Retour à la <a href="{% url 'users:medecin_login' %}">connexion</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,312 @@
+{% extends 'users/base.html' %}
+{% block title %}Mon Compte Patient - CareConnect{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-layout {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 2rem;
+        align-items: start;
+    }
+
+    @media (max-width: 992px) {
+        .profile-layout {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Profile Sidebar Card */
+    .profile-card {
+        background: white;
+        border-radius: var(--radius-xl);
+        border: 1px solid var(--border-color);
+        padding: 2.5rem 2rem;
+        text-align: center;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        background: var(--success-light);
+        color: var(--success);
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 2.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem auto;
+        border: 3px solid white;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+    }
+
+    .profile-name {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.35rem;
+        color: var(--dark);
+        margin-bottom: 0.25rem;
+    }
+
+    .profile-role-badge {
+        display: inline-block;
+        background-color: var(--success-light);
+        color: var(--success);
+        font-weight: 700;
+        font-size: 0.775rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 2rem;
+    }
+
+    .profile-details-list {
+        text-align: left;
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
+        border-top: 1px solid var(--border-color);
+        padding-top: 1.5rem;
+    }
+
+    .profile-details-list li {
+        margin-bottom: 1.25rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-details-list li:last-child {
+        margin-bottom: 0;
+    }
+
+    .detail-label {
+        font-size: 0.775rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.25rem;
+    }
+
+    .detail-val {
+        font-size: 0.95rem;
+        color: var(--dark);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .detail-val i {
+        color: var(--text-muted);
+    }
+
+    /* Appointments Section */
+    .section-title {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--dark);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .appointment-card {
+        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+    }
+
+    .appointment-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .app-status-badge {
+        font-size: 0.775rem;
+        font-weight: 700;
+        padding: 0.35rem 0.75rem;
+        border-radius: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .status-confirmed {
+        background-color: var(--success-light);
+        color: var(--success);
+    }
+
+    .status-rejected {
+        background-color: var(--danger-light);
+        color: var(--danger);
+    }
+
+    .status-pending {
+        background-color: var(--warning-light);
+        color: var(--warning);
+    }
+
+    .empty-appointments-state {
+        background: white;
+        border: 1px dashed var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 4rem 2rem;
+        text-align: center;
+        color: var(--text-muted);
+    }
+
+    .empty-appointments-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% if patient %}
+<div class="profile-layout">
+    <!-- Sidebar profile info -->
+    <div class="profile-card">
+        <div class="profile-avatar">
+            {{ patient.Name|slice:":2"|upper }}
+        </div>
+        <h3 class="profile-name">{{ patient.Name }}</h3>
+        <span class="profile-role-badge">Espace Patient</span>
+        
+        <ul class="profile-details-list">
+            <li>
+                <span class="detail-label">Adresse email</span>
+                <span class="detail-val"><i class="fa-regular fa-envelope"></i> {{ patient.my_email }}</span>
+            </li>
+            <li>
+                <span class="detail-label">Téléphone</span>
+                <span class="detail-val"><i class="fa-solid fa-phone"></i> +216 {{ patient.NumTel }}</span>
+            </li>
+            <li>
+                <span class="detail-label">Genre</span>
+                <span class="detail-val">
+                    {% if patient.Sexe == 'M' or patient.Sexe == 'm' or patient.Sexe == 'Homme' %}
+                        <i class="fa-solid fa-mars text-primary"></i> Homme
+                    {% else %}
+                        <i class="fa-solid fa-venus text-danger"></i> Femme
+                    {% endif %}
+                </span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main area for appointments list -->
+    <div>
+        <div class="card-premium p-4">
+            <h3 class="section-title">
+                <i class="fa-regular fa-calendar-check text-success"></i> Mes consultations réservées
+            </h3>
+            
+            <div id="appointmentsList">
+                <div class="text-center py-5">
+                    <i class="fa-solid fa-spinner fa-spin fs-3 text-muted"></i>
+                    <p class="text-muted mt-2">Chargement de vos rendez-vous...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="text-center py-5">
+    <i class="fa-solid fa-triangle-exclamation text-danger fs-1 mb-3"></i>
+    <h3 class="fw-bold">Accès non autorisé</h3>
+    <p class="text-muted">Veuillez vous connecter en tant que patient pour accéder à cette page.</p>
+    <a href="{% url 'users:login_patient' %}" class="btn-premium mt-3">Se connecter</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if patient %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const listContainer = document.getElementById('appointmentsList');
+    
+    fetch("{% url 'appointments:patient_appointments' %}")
+        .then(res => res.json())
+        .then(data => {
+            if (!data || data.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-appointments-state">
+                        <i class="fa-regular fa-calendar-xmark"></i>
+                        <h5>Aucun rendez-vous planifié</h5>
+                        <p class="mb-0">Vous n'avez pas encore réservé de consultation. Recherchez un médecin pour prendre RDV.</p>
+                        <a href="{% url 'users:interface_patient' %}" class="btn-premium mt-3" style="background: var(--success);">Prendre un rendez-vous</a>
+                    </div>`;
+                return;
+            }
+            
+            listContainer.innerHTML = data.map(rdv => {
+                const dateObj = new Date(rdv.start_time);
+                const dateStr = dateObj.toLocaleDateString('fr-FR', {
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric'
+                });
+                const timeStr = dateObj.toLocaleTimeString('fr-FR', {
+                    hour: '2-digit', 
+                    minute: '2-digit'
+                });
+                
+                let statusBadge = '';
+                if (rdv.status === 'confirmed') {
+                    statusBadge = '<span class="app-status-badge status-confirmed">Confirmé</span>';
+                } else if (rdv.status === 'rejected') {
+                    statusBadge = '<span class="app-status-badge status-rejected">Décliné</span>';
+                } else {
+                    statusBadge = '<span class="app-status-badge status-pending">En attente</span>';
+                }
+                
+                return `
+                <div class="appointment-card">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="text-center bg-light p-2 rounded" style="min-width: 80px;">
+                            <i class="fa-solid fa-user-md text-primary fs-3"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1" style="color: var(--dark); font-size: 1.05rem;">${rdv.medecin_name}</h5>
+                            <p class="text-muted mb-1" style="font-size: 0.85rem;"><i class="fa-solid fa-stethoscope"></i> ${rdv.medecin_specialite}</p>
+                            <p class="mb-0" style="font-size: 0.9rem; font-weight: 600; color: var(--primary);">
+                                <i class="fa-regular fa-clock"></i> ${dateStr} à ${timeStr}
+                            </p>
+                            <p class="text-muted mt-1 mb-0" style="font-size: 0.85rem;"><i class="fa-solid fa-map-marker-alt"></i> ${rdv.location || 'Cabinet'}</p>
+                        </div>
+                    </div>
+                    <div>
+                        ${statusBadge}
+                    </div>
+                </div>`;
+            }).join('');
+        })
+        .catch(err => {
+            console.error('Erreur:', err);
+            listContainer.innerHTML = `
+                <div class="alert alert-danger border-0 rounded-3">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i>
+                    Erreur lors de la récupération des rendez-vous. Veuillez actualiser la page.
+                </div>`;
+        });
+});
+</script>
+{% endif %}
+{% endblock %}

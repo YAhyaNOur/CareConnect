@@ -1,0 +1,263 @@
+{% extends 'users/base.html' %}
+{% block title %}Connexion Psychologue - CareConnect{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 60vh;
+        padding: 2rem 0;
+    }
+
+    .auth-card {
+        background: white;
+        width: 100%;
+        max-width: 440px;
+        padding: 3rem;
+        border-radius: var(--radius-xl);
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .auth-header .icon-badge {
+        width: 60px;
+        height: 60px;
+        background-color: var(--secondary-light);
+        color: var(--secondary);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        margin: 0 auto 1.25rem auto;
+        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.1);
+    }
+
+    .auth-header h2 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.75rem;
+        color: var(--dark);
+        margin-bottom: 0.5rem;
+    }
+
+    .auth-header p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--text-main);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .input-group-custom {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-icon-left {
+        position: absolute;
+        left: 16px;
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        pointer-events: none;
+        transition: var(--transition);
+        z-index: 10;
+    }
+
+    .form-input-premium {
+        width: 100%;
+        padding: 0.85rem 1rem 0.85rem 2.85rem;
+        border: 1.5px solid var(--border-color);
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-family: var(--font-sans);
+        color: var(--dark);
+        background-color: #f8fafc;
+        transition: var(--transition);
+    }
+
+    .form-input-premium:focus {
+        background-color: white;
+        border-color: var(--secondary);
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+        outline: none;
+    }
+
+    .form-input-premium:focus ~ .input-icon-left {
+        color: var(--secondary);
+    }
+
+    .password-toggle-btn {
+        position: absolute;
+        right: 16px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+        z-index: 10;
+    }
+
+    .password-toggle-btn:hover {
+        color: var(--secondary);
+    }
+
+    .btn-auth-submit {
+        width: 100%;
+        background-color: var(--secondary);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 0.9rem;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.2);
+        margin-top: 1rem;
+    }
+
+    .btn-auth-submit:hover {
+        background-color: var(--secondary-hover);
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
+        transform: translateY(-1px);
+    }
+
+    .auth-footer {
+        margin-top: 2rem;
+        text-align: center;
+        border-top: 1px solid var(--border-color);
+        padding-top: 1.5rem;
+        font-size: 0.925rem;
+        color: var(--text-muted);
+    }
+
+    .auth-footer a {
+        color: var(--secondary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+
+    .auth-footer a:hover {
+        color: var(--secondary-hover);
+        text-decoration: underline;
+    }
+
+    .alert-container {
+        padding: 0;
+        margin-bottom: 1.5rem;
+        list-style: none;
+    }
+
+    .alert-item {
+        background: var(--danger-light);
+        padding: 0.85rem 1rem;
+        border-radius: 10px;
+        color: var(--danger);
+        border: 1px solid rgba(239, 68, 68, 0.15);
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="icon-badge">
+                <i class="fa-solid fa-brain"></i>
+            </div>
+            <h2>Connexion Psychologue</h2>
+            <p>Accédez à votre espace professionnel</p>
+        </div>
+
+        {% if messages %}
+            <div class="alert-container">
+                {% for message in messages %}
+                    <div class="alert-item">
+                        <i class="fa-solid fa-circle-exclamation"></i> {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="form-label">Adresse email</label>
+                <div class="input-group-custom">
+                    <i class="fa-regular fa-envelope input-icon-left"></i>
+                    <input type="email" name="my_email" class="form-input-premium"
+                           placeholder="Ex: docteur.psy@gmail.com" required autocomplete="off">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Mot de passe</label>
+                <div class="input-group-custom">
+                    <i class="fa-solid fa-lock input-icon-left"></i>
+                    <input type="password" name="my_password" id="my_password"
+                           class="form-input-premium" placeholder="Entrez votre mot de passe"
+                           required autocomplete="new-password">
+                    <button type="button" class="password-toggle-btn" id="togglePassword">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-auth-submit">
+                Se connecter
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Nouveau sur CareConnect ? <a href="{% url 'users:register_psy' %}">Créer un compte psychologue</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const input = document.getElementById('my_password');
+        const icon = this.querySelector('i');
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    });
+</script>
+{% endblock %}

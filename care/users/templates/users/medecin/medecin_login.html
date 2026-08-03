@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion Médecin - CareConnect</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #4f46e5;
+            --gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            --shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-container {
+            display: flex;
+            width: 1000px;
+            max-width: 95%;
+            height: 650px;
+            background: white;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        /* ================== LEFT SIDE (Branding & Feature Highlight) ================== */
+        .left-side {
+            flex: 1.1;
+            background: var(--gradient);
+            padding: 50px 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative Background Orbs */
+        .left-side::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .left-side::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-text {
+            margin-top: 2rem;
+            margin-bottom: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-text h1 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            line-height: 1.3;
+            margin-bottom: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-text p {
+            font-size: 0.975rem;
+            opacity: 0.85;
+            line-height: 1.6;
+        }
+
+        .features {
+            margin-top: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 0.925rem;
+        }
+
+        .feature-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .feature-title {
+            font-weight: 700;
+            margin-bottom: 2px;
+            font-size: 0.95rem;
+        }
+
+        .feature-desc {
+            opacity: 0.8;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .stethoscope {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            font-size: 10rem;
+            opacity: 0.08;
+            transform: rotate(-15deg);
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-15deg); }
+            50% { transform: translateY(-10px) rotate(-10deg); }
+        }
+
+        /* ================== RIGHT SIDE (Form Container) ================== */
+        .right-side {
+            flex: 1;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: white;
+        }
+
+        .login-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .login-header h2 {
+            font-family: var(--font-display);
+            color: var(--text-dark);
+            font-size: 1.85rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .login-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            transition: var(--transition);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.85rem 1rem 0.85rem 2.85rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: #f8fafc;
+            font-family: inherit;
+            color: var(--text-dark);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+        }
+
+        input:focus + .input-icon {
+            color: var(--primary);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            padding: 4px;
+            z-index: 10;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .remember-me input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .forgot-password:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+        }
+
+        .register-section {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .register-text {
+            color: var(--text-muted);
+            font-size: 0.925rem;
+            margin-bottom: 1rem;
+        }
+
+        .register-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.75rem 2rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            transition: var(--transition);
+            font-size: 0.925rem;
+            border: 1px solid rgba(37, 99, 235, 0.15);
+        }
+
+        .register-link:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Error/Message Box */
+        .error-message {
+            background: var(--danger-light);
+            color: var(--danger);
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 900px) {
+            .login-container {
+                flex-direction: column;
+                height: auto;
+                max-width: 480px;
+            }
+
+            .left-side {
+                padding: 40px 30px;
+                border-bottom: 1px solid rgba(226, 232, 240, 0.1);
+            }
+
+            .welcome-text {
+                margin-top: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .stethoscope {
+                font-size: 8rem;
+            }
+
+            .right-side {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Left panel -->
+        <div class="left-side">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <div class="logo-text">CareConnect</div>
+            </div>
+
+            <div class="welcome-text">
+                <h1>Optimisez la gestion de votre cabinet médical.</h1>
+                <p>Une solution complète de planification et de suivi clinique pour les professionnels de la santé.</p>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div>
+                        <div class="feature-title">Données Sécurisées</div>
+                        <div class="feature-desc">Hébergement conforme aux normes de santé en vigueur.</div>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div>
+                        <div class="feature-title">Agenda Collaboratif</div>
+                        <div class="feature-desc">Planification simplifiée avec gestion des rendez-vous en temps réel.</div>
+                    </div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fa-solid fa-laptop-medical"></i></div>
+                    <div>
+                        <div class="feature-title">Suivi Clinique</div>
+                        <div class="feature-desc">Historique médical et dossiers patients accessibles en un clic.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stethoscope">
+                <i class="fa-solid fa-stethoscope"></i>
+            </div>
+        </div>
+
+        <!-- Right panel -->
+        <div class="right-side">
+            <div class="login-header">
+                <h2>Espace Médecin</h2>
+                <p>Connectez-vous à votre portail professionnel</p>
+            </div>
+
+            {% if error %}
+                <div class="error-message">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>{{ error }}</span>
+                </div>
+            {% endif %}
+
+            <form method="POST" class="login-form" autocomplete="off">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="form-label">Email professionnel</label>
+                    <div class="input-container">
+                        <i class="fa-regular fa-envelope input-icon"></i>
+                        <input type="email" name="email" placeholder="Ex: dr.martin@careconnect.fr" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mot de passe</label>
+                    <div class="input-container password-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" name="remember">
+                        <span>Se souvenir de moi</span>
+                    </label>
+                    <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Se connecter
+                </button>
+            </form>
+
+            <div class="register-section">
+                <p class="register-text">Pas encore de compte professionnel ?</p>
+                <a href="{% url 'users:medecin_register' %}" class="register-link">
+                    <i class="fa-solid fa-user-doctor"></i> S'inscrire maintenant
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.toggle-password i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>
