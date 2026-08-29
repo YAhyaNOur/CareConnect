@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,13 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
             --font-sans: 'Plus Jakarta Sans', sans-serif;
@@ -77,7 +80,7 @@
             right: -100px;
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
             border-radius: 50%;
         }
 
@@ -88,7 +91,7 @@
             left: -150px;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             border-radius: 50%;
         }
 
@@ -194,8 +197,15 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(-15deg); }
-            50% { transform: translateY(-10px) rotate(-10deg); }
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(-15deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(-10deg);
+            }
         }
 
         /* ================== RIGHT SIDE (Form Container) ================== */
@@ -273,7 +283,7 @@
             box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
         }
 
-        input:focus + .input-icon {
+        input:focus+.input-icon {
             color: var(--primary);
         }
 
@@ -413,8 +423,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Responsive Layout */
@@ -445,6 +462,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="login-container">
         <!-- Left panel -->
@@ -473,7 +491,8 @@
                     <div class="feature-icon"><i class="fa-solid fa-calendar-check"></i></div>
                     <div>
                         <div class="feature-title">Agenda Collaboratif</div>
-                        <div class="feature-desc">Planification simplifiée avec gestion des rendez-vous en temps réel.</div>
+                        <div class="feature-desc">Planification simplifiée avec gestion des rendez-vous en temps réel.
+                        </div>
                     </div>
                 </div>
                 <div class="feature">
@@ -498,15 +517,15 @@
             </div>
 
             {% if error %}
-                <div class="error-message">
-                    <i class="fa-solid fa-circle-exclamation"></i>
-                    <span>{{ error }}</span>
-                </div>
+            <div class="error-message">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>{{ error }}</span>
+            </div>
             {% endif %}
 
             <form method="POST" class="login-form" autocomplete="off">
                 {% csrf_token %}
-                
+
                 <div class="form-group">
                     <label class="form-label">Email professionnel</label>
                     <div class="input-container">
@@ -519,7 +538,8 @@
                     <label class="form-label">Mot de passe</label>
                     <div class="input-container password-wrapper">
                         <i class="fa-solid fa-lock input-icon"></i>
-                        <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe" required>
+                        <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe"
+                            required>
                         <button type="button" class="toggle-password" onclick="togglePassword()">
                             <i class="fa-regular fa-eye"></i>
                         </button>
@@ -552,7 +572,7 @@
         function togglePassword() {
             const passwordInput = document.getElementById('password');
             const toggleIcon = document.querySelector('.toggle-password i');
-            
+
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
@@ -563,4 +583,5 @@
         }
     </script>
 </body>
+
 </html>

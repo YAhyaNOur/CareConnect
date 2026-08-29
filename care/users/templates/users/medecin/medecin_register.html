@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,13 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
             --font-sans: 'Plus Jakarta Sans', sans-serif;
@@ -72,16 +75,16 @@
         .bg-circle {
             position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
         }
-        
+
         .circle-1 {
             width: 300px;
             height: 300px;
             top: -100px;
             right: -100px;
         }
-        
+
         .circle-2 {
             width: 250px;
             height: 250px;
@@ -189,7 +192,7 @@
             border: 3px solid white;
             border-radius: 40% 40% 35% 35%;
             z-index: 3;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         /* Hair */
@@ -223,8 +226,14 @@
             border-radius: 50%;
             top: 10px;
         }
-        .eye-left { left: 8px; }
-        .eye-right { right: 8px; }
+
+        .eye-left {
+            left: 8px;
+        }
+
+        .eye-right {
+            right: 8px;
+        }
 
         .mouth {
             position: absolute;
@@ -249,7 +258,7 @@
             border: 3px solid white;
             border-radius: 35px 35px 15px 15px;
             z-index: 2;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
         }
 
         .doctor-collar {
@@ -281,7 +290,7 @@
             font-weight: bold;
             z-index: 3;
             border: 2px solid white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
 
         .doctor-arm {
@@ -293,10 +302,18 @@
             border: 3px solid white;
             border-radius: 15px;
             z-index: 1;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
         }
-        .arm-left { left: -20px; transform: rotate(-12deg); }
-        .arm-right { right: -20px; transform: rotate(12deg); }
+
+        .arm-left {
+            left: -20px;
+            transform: rotate(-12deg);
+        }
+
+        .arm-right {
+            right: -20px;
+            transform: rotate(12deg);
+        }
 
         /* Stethoscope */
         .stethoscope {
@@ -337,12 +354,29 @@
             border-radius: 50%;
             border: 2px solid white;
         }
-        .ear-left { position: absolute; top: 120px; left: -30px; }
-        .ear-right { position: absolute; top: 120px; right: -30px; }
+
+        .ear-left {
+            position: absolute;
+            top: 120px;
+            left: -30px;
+        }
+
+        .ear-right {
+            position: absolute;
+            top: 120px;
+            right: -30px;
+        }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
         }
 
         /* ================== RIGHT SIDE ================== */
@@ -379,7 +413,9 @@
             gap: 1.25rem;
         }
 
-        .full-width { grid-column: span 2; }
+        .full-width {
+            grid-column: span 2;
+        }
 
         .form-group {
             margin-bottom: 0.75rem;
@@ -409,7 +445,8 @@
             z-index: 10;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
             padding: 0.8rem 1rem 0.8rem 2.75rem;
             border: 1.5px solid #e2e8f0;
@@ -422,14 +459,16 @@
             font-family: inherit;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             outline: none;
             border-color: var(--primary);
             background-color: white;
             box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
         }
 
-        input:focus + .input-icon, select:focus + .input-icon {
+        input:focus+.input-icon,
+        select:focus+.input-icon {
             color: var(--primary);
         }
 
@@ -549,201 +588,258 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="main-container">
-    <!-- Left panel -->
-    <div class="left-side">
-        <div class="bg-circle circle-1"></div>
-        <div class="bg-circle circle-2"></div>
+    <div class="main-container">
+        <!-- Left panel -->
+        <div class="left-side">
+            <div class="bg-circle circle-1"></div>
+            <div class="bg-circle circle-2"></div>
 
-        <div class="logo">
-            <div class="logo-icon">
-                <i class="fa-solid fa-heart-pulse"></i>
-            </div>
-            <div class="logo-text">CareConnect</div>
-        </div>
-
-        <div class="welcome-text">
-            <h1>Rejoignez notre réseau de praticiens de santé.</h1>
-            <p>Accompagnez vos patients grâce à nos outils digitaux modernes et simplifiez votre quotidien clinique.</p>
-        </div>
-
-        <div class="features">
-            <div class="feature">
-                <i class="fa-solid fa-circle-check"></i>
-                <span>Création de profil professionnel certifié</span>
-            </div>
-            <div class="feature">
-                <i class="fa-solid fa-circle-check"></i>
-                <span>Gestion intégrée d'agenda médical</span>
-            </div>
-            <div class="feature">
-                <i class="fa-solid fa-circle-check"></i>
-                <span>Envoi automatisé de convocations et rappels</span>
-            </div>
-        </div>
-
-        <!-- Doctor Silhouette -->
-        <div class="doctor-container">
-            <div class="doctor-figure">
-                <div class="doctor-body">
-                    <div class="doctor-collar"></div>
-                    <div class="doctor-badge"><i class="fa-solid fa-plus"></i></div>
-                    <div class="doctor-arm arm-left"></div>
-                    <div class="doctor-arm arm-right"></div>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-heart-pulse"></i>
                 </div>
-                <div class="doctor-head">
-                    <div class="doctor-hair"></div>
-                    <div class="doctor-face">
-                        <div class="eye eye-left"></div>
-                        <div class="eye eye-right"></div>
-                        <div class="mouth"></div>
+                <div class="logo-text">CareConnect</div>
+            </div>
+
+            <div class="welcome-text">
+                <h1>Rejoignez notre réseau de praticiens de santé.</h1>
+                <p>Accompagnez vos patients grâce à nos outils digitaux modernes et simplifiez votre quotidien clinique.
+                </p>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Création de profil professionnel certifié</span>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Gestion intégrée d'agenda médical</span>
+                </div>
+                <div class="feature">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Envoi automatisé de convocations et rappels</span>
+                </div>
+            </div>
+
+            <!-- Doctor Silhouette -->
+            <div class="doctor-container">
+                <div class="doctor-figure">
+                    <div class="doctor-body">
+                        <div class="doctor-collar"></div>
+                        <div class="doctor-badge"><i class="fa-solid fa-plus"></i></div>
+                        <div class="doctor-arm arm-left"></div>
+                        <div class="doctor-arm arm-right"></div>
+                    </div>
+                    <div class="doctor-head">
+                        <div class="doctor-hair"></div>
+                        <div class="doctor-face">
+                            <div class="eye eye-left"></div>
+                            <div class="eye eye-right"></div>
+                            <div class="mouth"></div>
+                        </div>
+                    </div>
+                    <div class="stethoscope">
+                        <div class="stethoscope-line scope-1"></div>
+                        <div class="stethoscope-line scope-2"></div>
+                        <div class="scope-ear ear-left"></div>
+                        <div class="scope-ear ear-right"></div>
                     </div>
                 </div>
-                <div class="stethoscope">
-                    <div class="stethoscope-line scope-1"></div>
-                    <div class="stethoscope-line scope-2"></div>
-                    <div class="scope-ear ear-left"></div>
-                    <div class="scope-ear ear-right"></div>
+            </div>
+        </div>
+
+        <!-- Right panel -->
+        <div class="right-side">
+            <div class="form-header">
+                <h2>Inscription Praticien</h2>
+                <p>Créez votre espace professionnel de santé</p>
+            </div>
+
+            {% if error %}
+            <div class="error-box">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <form method="POST" autocomplete="off">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Prénom</label>
+                        <div class="input-with-icon">
+                            <i class="input-icon fa-regular fa-user"></i>
+                            <input type="text" name="firstname" placeholder="Ex: Mohamed" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nom</label>
+                        <div class="input-with-icon">
+                            <i class="input-icon fa-regular fa-user"></i>
+                            <input type="text" name="lastname" placeholder="Ex: Ben Ali" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Email professionnel</label>
+                        <div class="input-with-icon">
+                            <i class="input-icon fa-regular fa-envelope"></i>
+                            <input type="email" name="email" placeholder="Ex: dr.benali@careconnect.tn" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Spécialité</label>
+                        <div class="input-with-icon">
+                            <i class="input-icon fa-solid fa-stethoscope"></i>
+                            <select name="specialite" required>
+                                <option value="">Choisir une spécialité</option>
+                                <option value="Généraliste">Médecin Généraliste</option>
+                                <option value="Pédiatre">Pédiatre</option>
+                                <option value="Cardiologue">Cardiologue</option>
+                                <option value="Dermatologue">Dermatologue</option>
+                                <option value="Dentiste">Dentiste</option>
+                                <option value="Ophtalmologue">Ophtalmologue</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Téléphone</label>
+                        <div class="input-with-icon">
+                            <i class="input-icon fa-solid fa-phone"></i>
+                            <input type="tel" name="telephonenumber" placeholder="Téléphone (ex: 216...)">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Localisation du cabinet</label>
+                        <div class="input-with-icon">
+                            <i class="input-icon fa-solid fa-location-dot"></i>
+                            <input type="text" name="localisation_cabinet" id="localisationCabinet"
+                                placeholder="Ex: Cabinet 4B, Les Berges du Lac, Tunis">
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>Position GPS du cabinet</label>
+                        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                            <button type="button" id="btnLocaliser" class="btn-submit"
+                                style="width:auto; padding:0.65rem 1.2rem; font-size:0.85rem;">
+                                <i class="fa-solid fa-location-crosshairs"></i> Localiser mon cabinet
+                            </button>
+                            <span id="geoStatus" style="font-size:0.85rem; color:#64748b;">
+                                Nécessaire pour apparaître dans les recherches triées par proximité.
+                            </span>
+                        </div>
+                        <input type="hidden" name="latitude" id="latitude">
+                        <input type="hidden" name="longitude" id="longitude">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mot de passe</label>
+                        <div class="input-with-icon password-wrapper">
+                            <i class="input-icon fa-solid fa-lock"></i>
+                            <input type="password" name="password" id="password"
+                                placeholder="Mot de passe minimum 6 car." required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('password')">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Confirmer le mot de passe</label>
+                        <div class="input-with-icon password-wrapper">
+                            <i class="input-icon fa-solid fa-lock"></i>
+                            <input type="password" name="password2" id="password2" placeholder="Confirmer" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword('password2')">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-user-plus"></i> Créer mon compte
+                </button>
+            </form>
+
+            <div class="login-link">
+                Déjà inscrit ? <a href="{% url 'users:medecin_login' %}">Se connecter</a>
             </div>
         </div>
     </div>
 
-    <!-- Right panel -->
-    <div class="right-side">
-        <div class="form-header">
-            <h2>Inscription Praticien</h2>
-            <p>Créez votre espace professionnel de santé</p>
-        </div>
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const toggleIcon = input.parentNode.querySelector('.toggle-password i');
 
-        {% if error %}
-        <div class="error-box">
-            <i class="fa-solid fa-circle-exclamation"></i>
-            <span>{{ error }}</span>
-        </div>
-        {% endif %}
-
-        <form method="POST" autocomplete="off">
-            {% csrf_token %}
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>Prénom</label>
-                    <div class="input-with-icon">
-                        <i class="input-icon fa-regular fa-user"></i>
-                        <input type="text" name="firstname" placeholder="Ex: Mohamed" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Nom</label>
-                    <div class="input-with-icon">
-                        <i class="input-icon fa-regular fa-user"></i>
-                        <input type="text" name="lastname" placeholder="Ex: Ben Ali" required>
-                    </div>
-                </div>
-                
-                <div class="form-group full-width">
-                    <label>Email professionnel</label>
-                    <div class="input-with-icon">
-                        <i class="input-icon fa-regular fa-envelope"></i>
-                        <input type="email" name="email" placeholder="Ex: dr.benali@careconnect.tn" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Spécialité</label>
-                    <div class="input-with-icon">
-                        <i class="input-icon fa-solid fa-stethoscope"></i>
-                        <select name="specialite" required>
-                            <option value="">Choisir une spécialité</option>
-                            <option value="Généraliste">Médecin Généraliste</option>
-                            <option value="Pédiatre">Pédiatre</option>
-                            <option value="Cardiologue">Cardiologue</option>
-                            <option value="Dermatologue">Dermatologue</option>
-                            <option value="Dentiste">Dentiste</option>
-                            <option value="Ophtalmologue">Ophtalmologue</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Téléphone</label>
-                    <div class="input-with-icon">
-                        <i class="input-icon fa-solid fa-phone"></i>
-                        <input type="tel" name="telephonenumber" placeholder="Téléphone (ex: 216...)">
-                    </div>
-                </div>
-                
-                <div class="form-group full-width">
-                    <label>Localisation du cabinet</label>
-                    <div class="input-with-icon">
-                        <i class="input-icon fa-solid fa-location-dot"></i>
-                        <input type="text" name="localisation_cabinet" placeholder="Ex: Cabinet 4B, Les Berges du Lac, Tunis" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Mot de passe</label>
-                    <div class="input-with-icon password-wrapper">
-                        <i class="input-icon fa-solid fa-lock"></i>
-                        <input type="password" name="password" id="password" placeholder="Mot de passe minimum 6 car." required>
-                        <button type="button" class="toggle-password" onclick="togglePassword('password')">
-                            <i class="fa-regular fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Confirmer le mot de passe</label>
-                    <div class="input-with-icon password-wrapper">
-                        <i class="input-icon fa-solid fa-lock"></i>
-                        <input type="password" name="password2" id="password2" placeholder="Confirmer" required>
-                        <button type="button" class="toggle-password" onclick="togglePassword('password2')">
-                            <i class="fa-regular fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <button type="submit" class="btn-submit">
-                <i class="fa-solid fa-user-plus"></i> Créer mon compte
-            </button>
-        </form>
-
-        <div class="login-link">
-            Déjà inscrit ? <a href="{% url 'users:medecin_login' %}">Se connecter</a>
-        </div>
-    </div>
-</div>
-
-<script>
-    function togglePassword(inputId) {
-        const input = document.getElementById(inputId);
-        const toggleIcon = input.parentNode.querySelector('.toggle-password i');
-        
-        if (input.type === 'password') {
-            input.type = 'text';
-            toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-            input.type = 'password';
-            toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
         }
-    }
 
-    document.querySelector('form').addEventListener('submit', function(e) {
-        const password = document.getElementById('password').value;
-        const password2 = document.getElementById('password2').value;
-        
-        if (password !== password2) {
-            e.preventDefault();
-            alert('Les mots de passe ne correspondent pas.');
-            return false;
-        }
-        return true;
-    });
-</script>
+        document.getElementById('btnLocaliser').addEventListener('click', function () {
+            const status = document.getElementById('geoStatus');
+            if (!navigator.geolocation) {
+                status.textContent = "La géolocalisation n'est pas supportée par votre navigateur.";
+                status.style.color = '#dc2626';
+                return;
+            }
+            status.textContent = "Localisation en cours...";
+            status.style.color = '#64748b';
+
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    document.getElementById('latitude').value = position.coords.latitude;
+                    document.getElementById('longitude').value = position.coords.longitude;
+                    status.innerHTML = '<i class="fa-solid fa-check" style="color:#16a34a;"></i> Position enregistrée';
+                    status.style.color = '#16a34a';
+
+                    // Remplit automatiquement le champ adresse (texte) si vide
+                    const adresseField = document.getElementById('localisationCabinet');
+                    if (adresseField && !adresseField.value.trim()) {
+                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data && data.display_name) {
+                                    adresseField.value = data.display_name;
+                                }
+                            })
+                            .catch(() => { /* pas grave si le géocodage échoue, les coordonnées GPS sont déjà enregistrées */ });
+                    }
+                },
+                function () {
+                    status.textContent = "Localisation refusée. Vous pourrez la renseigner plus tard.";
+                    status.style.color = '#dc2626';
+                }
+            );
+        });
+
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const password = document.getElementById('password').value;
+            const password2 = document.getElementById('password2').value;
+
+            if (password !== password2) {
+                e.preventDefault();
+                alert('Les mots de passe ne correspondent pas.');
+                return false;
+            }
+            return true;
+        });
+    </script>
 
 </body>
+
 </html>

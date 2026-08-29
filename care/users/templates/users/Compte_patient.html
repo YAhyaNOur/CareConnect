@@ -186,7 +186,7 @@
         </div>
         <h3 class="profile-name">{{ patient.Name }}</h3>
         <span class="profile-role-badge">Espace Patient</span>
-        
+
         <ul class="profile-details-list">
             <li>
                 <span class="detail-label">Adresse email</span>
@@ -200,9 +200,9 @@
                 <span class="detail-label">Genre</span>
                 <span class="detail-val">
                     {% if patient.Sexe == 'M' or patient.Sexe == 'm' or patient.Sexe == 'Homme' %}
-                        <i class="fa-solid fa-mars text-primary"></i> Homme
+                    <i class="fa-solid fa-mars text-primary"></i> Homme
                     {% else %}
-                        <i class="fa-solid fa-venus text-danger"></i> Femme
+                    <i class="fa-solid fa-venus text-danger"></i> Femme
                     {% endif %}
                 </span>
             </li>
@@ -215,7 +215,7 @@
             <h3 class="section-title">
                 <i class="fa-regular fa-calendar-check text-success"></i> Mes consultations réservées
             </h3>
-            
+
             <div id="appointmentsList">
                 <div class="text-center py-5">
                     <i class="fa-solid fa-spinner fa-spin fs-3 text-muted"></i>
@@ -238,46 +238,149 @@
 {% block extra_js %}
 {% if patient %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const listContainer = document.getElementById('appointmentsList');
-    
-    fetch("{% url 'appointments:patient_appointments' %}")
-        .then(res => res.json())
-        .then(data => {
-            if (!data || data.length === 0) {
-                listContainer.innerHTML = `
+    document.addEventListener('DOMContentLoaded', function () {
+        const listContainer = document.getElementById('appointmentsList');
+
+        fetch("{% url 'appointments:patient_appointments' %}")
+            .then(res => res.json())
+            .then(data => {
+                if (!data || data.length === 0) {
+                    listContainer.innerHTML = `
                     <div class="empty-appointments-state">
                         <i class="fa-regular fa-calendar-xmark"></i>
                         <h5>Aucun rendez-vous planifié</h5>
                         <p class="mb-0">Vous n'avez pas encore réservé de consultation. Recherchez un médecin pour prendre RDV.</p>
                         <a href="{% url 'users:interface_patient' %}" class="btn-premium mt-3" style="background: var(--success);">Prendre un rendez-vous</a>
                     </div>`;
-                return;
-            }
-            
-            listContainer.innerHTML = data.map(rdv => {
-                const dateObj = new Date(rdv.start_time);
-                const dateStr = dateObj.toLocaleDateString('fr-FR', {
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric'
-                });
-                const timeStr = dateObj.toLocaleTimeString('fr-FR', {
-                    hour: '2-digit', 
-                    minute: '2-digit'
-                });
-                
-                let statusBadge = '';
-                if (rdv.status === 'confirmed') {
-                    statusBadge = '<span class="app-status-badge status-confirmed">Confirmé</span>';
-                } else if (rdv.status === 'rejected') {
-                    statusBadge = '<span class="app-status-badge status-rejected">Décliné</span>';
-                } else {
-                    statusBadge = '<span class="app-status-badge status-pending">En attente</span>';
+                    return;
                 }
-                
-                return `
+
+                listContainer.innerHTML = data.map(rdv => {
+                    const dateObj = new Date(rdv.start_time);
+                    const dateStr = dateObj.toLocaleDateString('fr-FR', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    const timeStr = dateObj.toLocaleTimeString('fr-FR', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+
+                    let statusBadge = '';
+                    if (rdv.status === 'confirmed') {
+                        statusBadge = '<span class="app-status-badge status-confirmed">Confirmé</span>';
+                    } else if (rdv.status === 'rejected') {
+                        statusBadge = '<span class="app-status-badge status-rejected">Décliné</span>';
+                    } else {
+                        statusBadge = '<span class="app-status-badge status-pending">En attente</span>';
+                    }
+
+                    const isOnline = rdv.type === 'teleconsultation';
+                    let videoBtn = '';
+                    if (rdv.status === 'confirmed' && isOnline) {
+                        const startTime = new Date(rdv.start_time);
+                        const now = new Date();
+                        const opensAt = new Date(startTime.getTime() - 10 * 60000);   // 10 min avant
+                        const closesAt = new Date(startTime.getTime() + 60 * 60000);  // 1h après le début
+
+                        if (now < opensAt) {
+                            const opensAtStr = opensAt.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+                            videoBtn = `
+                    <div class="mt-2">
+                        <span class="btn btn-sm btn-secondary disabled" style="font-weight: 700; border-radius: 8px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; opacity: 0.7;">
+                            <i class="fa-solid fa-lock"></i> Caméra disponible à partir de ${opensAtStr}
+                        </span>
+                    </div>`;
+                        } else if (now >= opensAt && now <= closesAt) {
+                            videoBtn = `
+                    <div class="mt-2">
+                        <a href="https://meet.jit.si/CareConnect-RDV-${rdv.id}" target="_blank" class="btn btn-sm btn-primary" style="font-weight: 700; border-radius: 8px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; background-color: var(--primary); border: none;">
+                            <i class="fa-solid fa-video"></i> Rejoindre la télévisite
+                        </a>
+                    </div>`;
+                        } else {
+                            videoBtn = `
+                    <div class="mt-2">
+                        <span class="btn btn-sm btn-secondary disabled" style="font-weight: 700; border-radius: 8px; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 6px; opacity: 0.7;">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Séance terminée
+                        </span>
+                    </div>`;
+                        }
+                    }
+
+                    let avisBtn = '';
+                    if (rdv.deja_note) {
+                        avisBtn = `<div class="mt-2"><span class="text-muted" style="font-size:0.8rem;"><i class="fa-solid fa-check text-success"></i> Avis déjà envoyé</span></div>`;
+                    } else if (rdv.peut_noter) {
+                        avisBtn = `
+                    <div class="mt-2 avis-block" data-id="${rdv.id}">
+                        <button type="button" class="btn btn-sm btn-outline-secondary btn-noter" style="font-size:0.8rem; border-radius: 8px;">
+                            <i class="fa-regular fa-star"></i> Noter ce praticien
+                        </button>
+                        <div class="avis-form d-none mt-2">
+                            <div class="avis-stars mb-2">
+                                ${[1, 2, 3, 4, 5].map(n => `<i class="fa-regular fa-star avis-star" data-value="${n}" style="cursor:pointer; font-size:1.1rem; color:#f5a623; margin-right:3px;"></i>`).join('')}
+                            </div>
+                            <textarea class="form-control form-control-sm avis-commentaire mb-2" rows="2" placeholder="Votre commentaire (optionnel)"></textarea>
+                            <button type="button" class="btn btn-sm btn-success btn-envoyer-avis" style="border-radius: 8px;">Envoyer</button>
+                            <span class="avis-msg ms-2" style="font-size:0.8rem;"></span>
+                        </div>
+                    </div>`;
+                    }
+
+                    let ordonnanceBlock = '';
+                    if (rdv.status === 'confirmed' && (rdv.ordonnance || rdv.diagnostic || rdv.notes)) {
+                        ordonnanceBlock = `
+                    <div class="mt-2 p-2 rounded-3" style="background-color: #f0fdf4; border: 1px solid rgba(16,185,129,0.2); text-align:left;">
+                        ${rdv.diagnostic ? `<p class="mb-1" style="font-size:0.82rem;"><strong><i class="fa-solid fa-notes-medical"></i> Diagnostic :</strong> ${rdv.diagnostic}</p>` : ''}
+                        ${rdv.notes ? `<p class="mb-1" style="font-size:0.82rem;"><strong><i class="fa-solid fa-clipboard"></i> Notes :</strong> ${rdv.notes}</p>` : ''}
+                        ${rdv.ordonnance ? `<p class="mb-0" style="font-size:0.82rem;"><strong><i class="fa-solid fa-prescription"></i> Ordonnance :</strong> ${rdv.ordonnance}</p>` : ''}
+                    </div>`;
+                    }
+
+                    let rescheduleBlock = '';
+                    const now2 = new Date();
+                    const startTime2 = new Date(rdv.start_time);
+                    const moreThan24h = (startTime2 - now2) >= 24 * 60 * 60000;
+
+                    if (rdv.status !== 'rejected' && rdv.reschedule_requested_by) {
+                        const proposedStr = new Date(rdv.new_start_time).toLocaleString('fr-FR', {
+                            day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                        });
+                        if (rdv.reschedule_requested_by === 'patient') {
+                            rescheduleBlock = `
+                    <div class="mt-2 p-2 rounded-3" style="background-color:#fffbeb; border:1px solid rgba(245,158,11,0.3); text-align:left; font-size:0.82rem;">
+                        <i class="fa-solid fa-hourglass-half"></i> Votre demande de report au <strong>${proposedStr}</strong> est en attente de réponse du praticien.
+                    </div>`;
+                        } else {
+                            rescheduleBlock = `
+                    <div class="mt-2 p-2 rounded-3 reschedule-block" data-id="${rdv.id}" style="background-color:#eff6ff; border:1px solid rgba(37,99,235,0.25); text-align:left; font-size:0.82rem;">
+                        <i class="fa-solid fa-rotate"></i> Le praticien propose de déplacer ce RDV au <strong>${proposedStr}</strong>.
+                        ${rdv.reschedule_reason ? `<br><em>${rdv.reschedule_reason}</em>` : ''}
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-sm btn-success btn-accept-reschedule" style="border-radius:8px; font-size:0.78rem;">Accepter</button>
+                            <button type="button" class="btn btn-sm btn-outline-danger btn-refuse-reschedule" style="border-radius:8px; font-size:0.78rem;">Refuser</button>
+                        </div>
+                    </div>`;
+                        }
+                    } else if (rdv.status !== 'rejected' && moreThan24h) {
+                        rescheduleBlock = `
+                    <div class="mt-2 reschedule-request-block" data-id="${rdv.id}">
+                        <button type="button" class="btn btn-sm btn-outline-secondary btn-open-reschedule" style="font-size:0.78rem; border-radius: 8px;">
+                            <i class="fa-solid fa-calendar-days"></i> Reporter / avancer
+                        </button>
+                        <div class="reschedule-form d-none mt-2 text-start">
+                            <input type="datetime-local" class="form-control form-control-sm reschedule-new-time mb-2">
+                            <textarea class="form-control form-control-sm reschedule-reason mb-2" rows="2" placeholder="Motif (optionnel)"></textarea>
+                            <button type="button" class="btn btn-sm btn-primary btn-envoyer-reschedule" style="border-radius:8px;">Envoyer la demande</button>
+                            <span class="reschedule-msg ms-2" style="font-size:0.78rem;"></span>
+                        </div>
+                    </div>`;
+                    }
+
+                    return `
                 <div class="appointment-card">
                     <div class="d-flex align-items-center gap-3">
                         <div class="text-center bg-light p-2 rounded" style="min-width: 80px;">
@@ -289,24 +392,144 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p class="mb-0" style="font-size: 0.9rem; font-weight: 600; color: var(--primary);">
                                 <i class="fa-regular fa-clock"></i> ${dateStr} à ${timeStr}
                             </p>
-                            <p class="text-muted mt-1 mb-0" style="font-size: 0.85rem;"><i class="fa-solid fa-map-marker-alt"></i> ${rdv.location || 'Cabinet'}</p>
+                            <p class="text-muted mt-1 mb-0" style="font-size: 0.85rem;">
+                                <i class="${isOnline ? 'fa-solid fa-video text-purple' : 'fa-solid fa-map-marker-alt'}"></i> 
+                                ${isOnline ? 'Télévisite (Visioconférence)' : (rdv.location || 'Cabinet')}
+                            </p>
                         </div>
                     </div>
-                    <div>
-                        ${statusBadge}
+                    <div class="text-end">
+                        <div>${statusBadge}</div>
+                        ${videoBtn}
+                        ${avisBtn}
                     </div>
-                </div>`;
-            }).join('');
-        })
-        .catch(err => {
-            console.error('Erreur:', err);
-            listContainer.innerHTML = `
+                </div>
+                ${ordonnanceBlock}
+                ${rescheduleBlock}`;
+                }).join('');
+
+                // Interactions du bloc "reporter / avancer le RDV"
+                document.querySelectorAll('.btn-open-reschedule').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        this.closest('.reschedule-request-block').querySelector('.reschedule-form').classList.toggle('d-none');
+                    });
+                });
+
+                document.querySelectorAll('.btn-envoyer-reschedule').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        const block = this.closest('.reschedule-request-block');
+                        const rdvId = block.dataset.id;
+                        const newTimeInput = block.querySelector('.reschedule-new-time').value;
+                        const reason = block.querySelector('.reschedule-reason').value;
+                        const msgEl = block.querySelector('.reschedule-msg');
+
+                        if (!newTimeInput) {
+                            msgEl.textContent = 'Choisissez une date';
+                            msgEl.style.color = '#dc2626';
+                            return;
+                        }
+
+                        fetch("{% url 'appointments:request_reschedule' 0 %}".replace('0', rdvId), {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                            body: JSON.stringify({ new_start_time: newTimeInput, reason: reason })
+                        })
+                            .then(res => res.json())
+                            .then(result => {
+                                msgEl.textContent = result.message;
+                                msgEl.style.color = result.success ? '#16a34a' : '#dc2626';
+                                if (result.success) { setTimeout(() => location.reload(), 1200); }
+                            })
+                            .catch(() => { msgEl.textContent = 'Erreur de connexion'; msgEl.style.color = '#dc2626'; });
+                    });
+                });
+
+                document.querySelectorAll('.btn-accept-reschedule, .btn-refuse-reschedule').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        const block = this.closest('.reschedule-block');
+                        const rdvId = block.dataset.id;
+                        const decision = this.classList.contains('btn-accept-reschedule') ? 'accept' : 'refuse';
+
+                        fetch("{% url 'appointments:respond_reschedule' 0 %}".replace('0', rdvId), {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                            body: JSON.stringify({ decision: decision })
+                        })
+                            .then(res => res.json())
+                            .then(result => {
+                                alert(result.message);
+                                if (result.success) { location.reload(); }
+                            })
+                            .catch(() => alert('Erreur de connexion'));
+                    });
+                });
+
+                // Interactions du bloc "noter ce praticien"
+                listContainer.querySelectorAll('.btn-noter').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        this.closest('.avis-block').querySelector('.avis-form').classList.remove('d-none');
+                        this.classList.add('d-none');
+                    });
+                });
+
+                listContainer.querySelectorAll('.avis-block').forEach(block => {
+                    let selectedNote = 0;
+                    const stars = block.querySelectorAll('.avis-star');
+
+                    stars.forEach(star => {
+                        star.addEventListener('click', function () {
+                            selectedNote = parseInt(this.dataset.value, 10);
+                            stars.forEach(s => {
+                                const val = parseInt(s.dataset.value, 10);
+                                s.classList.toggle('fa-solid', val <= selectedNote);
+                                s.classList.toggle('fa-regular', val > selectedNote);
+                            });
+                        });
+                    });
+
+                    block.querySelector('.btn-envoyer-avis').addEventListener('click', function () {
+                        const msg = block.querySelector('.avis-msg');
+                        if (!selectedNote) {
+                            msg.textContent = 'Choisissez une note.';
+                            msg.style.color = '#dc3545';
+                            return;
+                        }
+                        const appointmentId = block.dataset.id;
+                        const commentaire = block.querySelector('.avis-commentaire').value;
+
+                        fetch("{% url 'appointments:submit_avis' 0 %}".replace('0', appointmentId), {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: JSON.stringify({ note: selectedNote, commentaire: commentaire })
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.success) {
+                                    block.innerHTML = `<span class="text-muted" style="font-size:0.8rem;"><i class="fa-solid fa-check text-success"></i> ${data.message}</span>`;
+                                } else {
+                                    msg.textContent = data.message;
+                                    msg.style.color = '#dc3545';
+                                }
+                            })
+                            .catch(() => {
+                                msg.textContent = 'Erreur lors de l\'envoi.';
+                                msg.style.color = '#dc3545';
+                            });
+                    });
+                });
+            })
+            .catch(err => {
+                console.error('Erreur:', err);
+                listContainer.innerHTML = `
                 <div class="alert alert-danger border-0 rounded-3">
                     <i class="fa-solid fa-circle-exclamation me-2"></i>
                     Erreur lors de la récupération des rendez-vous. Veuillez actualiser la page.
                 </div>`;
-        });
-});
+            });
+    });
 </script>
 {% endif %}
 {% endblock %}

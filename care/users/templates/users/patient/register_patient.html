@@ -82,7 +82,7 @@
     }
 
     /* Style target for Django fields dynamically */
-    .form-group input, 
+    .form-group input,
     .form-group select {
         width: 100%;
         padding: 0.85rem 1rem 0.85rem 2.85rem;
@@ -96,7 +96,7 @@
         box-sizing: border-box;
     }
 
-    .form-group input:focus, 
+    .form-group input:focus,
     .form-group select:focus {
         background-color: white;
         border-color: var(--success);
@@ -104,8 +104,8 @@
         outline: none;
     }
 
-    .form-group input:focus ~ .input-icon-left,
-    .form-group select:focus ~ .input-icon-left {
+    .form-group input:focus~.input-icon-left,
+    .form-group select:focus~.input-icon-left {
         color: var(--success);
     }
 
@@ -185,24 +185,24 @@
                     {{ field }}
 
                     {% if field.name == "email" or field.name == "my_email" %}
-                        <i class="fa-regular fa-envelope input-icon-left"></i>
+                    <i class="fa-regular fa-envelope input-icon-left"></i>
                     {% elif "password" in field.name or "pass" in field.name %}
-                        <i class="fa-solid fa-lock input-icon-left"></i>
+                    <i class="fa-solid fa-lock input-icon-left"></i>
                     {% elif "Name" in field.name or "nom" in field.name or "prenom" in field.name %}
-                        <i class="fa-regular fa-user input-icon-left"></i>
+                    <i class="fa-regular fa-user input-icon-left"></i>
                     {% elif "NumTel" in field.name or "phone" in field.name %}
-                        <i class="fa-solid fa-phone input-icon-left"></i>
+                    <i class="fa-solid fa-phone input-icon-left"></i>
                     {% elif "Sexe" in field.name %}
-                        <i class="fa-solid fa-venus-mars input-icon-left"></i>
+                    <i class="fa-solid fa-venus-mars input-icon-left"></i>
                     {% else %}
-                        <i class="fa-solid fa-pen-clip input-icon-left"></i>
+                    <i class="fa-solid fa-pen-clip input-icon-left"></i>
                     {% endif %}
                 </div>
 
                 {% if field.errors %}
-                    <span class="error-message">
-                        <i class="fa-solid fa-circle-exclamation"></i> {{ field.errors.0 }}
-                    </span>
+                <span class="error-message">
+                    <i class="fa-solid fa-circle-exclamation"></i> {{ field.errors.0 }}
+                </span>
                 {% endif %}
             </div>
             {% endfor %}

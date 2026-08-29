@@ -26,4 +26,12 @@ urlpatterns = [
     path('patient-take-appointment/', views.patient_take_appointment, name='patient_take_appointment'),
     path('patient-appointments/', views.patient_appointments, name='patient_appointments'),
     path('recent-patients/', views.recent_patients, name='recent_patients'),
+    path('patient-file/<str:patient_email>/', views.patient_file, name='patient_file'),
+
+    # Avis / notation
+    path('submit-avis/<int:appointment_id>/', views.submit_avis, name='submit_avis'),
+
+    # Report / avancement de RDV (avec accord de l'autre partie)
+    path('request-reschedule/<int:appointment_id>/', views.request_reschedule, name='request_reschedule'),
+    path('respond-reschedule/<int:appointment_id>/', views.respond_reschedule, name='respond_reschedule'),
 ]

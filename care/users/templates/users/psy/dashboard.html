@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Médecin - CareConnect</title>
+    <title>Dashboard Psychologue - CareConnect</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,10 +19,11 @@
             --font-sans: 'Plus Jakarta Sans', sans-serif;
             --font-display: 'Outfit', sans-serif;
             
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --primary-light: #eff6ff;
-            --secondary: #4f46e5;
+            --primary: #4f46e5; /* Indigo theme for Psy */
+            --primary-hover: #4338ca;
+            --primary-light: #eef2ff;
+            --secondary: #6366f1;
+            
             --success: #10b981;
             --success-light: #ecfdf5;
             --warning: #f59e0b;
@@ -171,7 +172,7 @@
             font-weight: 700;
             padding: 0.5rem 1rem;
             border-radius: 10px;
-            border: 1px solid rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(79, 70, 229, 0.1);
             font-size: 0.85rem;
             display: inline-flex;
             align-items: center;
@@ -303,6 +304,28 @@
             font-size: 0.85rem;
         }
 
+        /* Consultation Type Badges */
+        .type-badge-premium {
+            font-size: 0.725rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            margin-top: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .type-teleconsultation {
+            background-color: #f3e8ff;
+            color: #7e22ce;
+        }
+
+        .type-cabinet {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+
         .appointment-actions-btn-group {
             display: flex;
             gap: 6px;
@@ -347,7 +370,7 @@
         .btn-action-edit {
             background: var(--primary-light);
             color: var(--primary);
-            border: 1px solid rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(79, 70, 229, 0.1);
             width: 32px;
             height: 32px;
             border-radius: 8px;
@@ -451,7 +474,7 @@
             background-color: white;
             border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
         }
 
         /* Modal Overlay custom */
@@ -542,7 +565,7 @@
         }
         .fc-button-primary {
             background-color: var(--primary-light) !important;
-            border-color: rgba(37, 99, 235, 0.1) !important;
+            border-color: rgba(79, 70, 229, 0.1) !important;
             color: var(--primary) !important;
             font-weight: 700 !important;
             border-radius: 10px !important;
@@ -590,11 +613,11 @@
 
 <div class="header">
     <div>
-        <h1>Dr {{ medecin.firstname }} {{ medecin.lastname }}</h1>
-        <p><i class="fa-solid fa-user-doctor"></i> {{ medecin.specialite }} — <i class="fa-solid fa-location-dot"></i> {{ medecin.localisation_cabinet }}</p>
+        <h1>Cabinet de Psychologie - {{ psy.Name }}</h1>
+        <p><i class="fa-solid fa-brain"></i> Espace Psychologue Praticien</p>
     </div>
     <div class="header-actions">
-        <a href="{% url 'users:medecin_profile' %}" class="btn-header-logout" style="background: rgba(255,255,255,0.15); margin-right: 0.5rem;">
+        <a href="{% url 'users:psy_profile' %}" class="btn-header-logout" style="background: rgba(255,255,255,0.15); margin-right: 0.5rem;">
             <i class="fa-solid fa-user-pen"></i> Modifier mon profil
         </a>
         <a href="{% url 'users:logout' %}" class="btn-header-logout">
@@ -613,12 +636,12 @@
             </div>
             <div class="stat-details">
                 <h4 id="todayCount">0</h4>
-                <p>RDV Aujourd'hui</p>
+                <p>Consultations Aujourd'hui</p>
             </div>
         </div>
         <div class="stat-card-premium stat-card-green">
             <div class="stat-icon-wrapper">
-                <i class="fa-solid fa-hospital-user"></i>
+                <i class="fa-solid fa-user-check"></i>
             </div>
             <div class="stat-details">
                 <h4 id="patientCount">0</h4>
@@ -627,11 +650,11 @@
         </div>
         <div class="stat-card-premium stat-card-yellow">
             <div class="stat-icon-wrapper">
-                <i class="fa-regular fa-envelope"></i>
+                <i class="fa-regular fa-paper-plane"></i>
             </div>
             <div class="stat-details">
                 <h4 id="emailCount">0</h4>
-                <p>RDV confirmés ce mois</p>
+                <p>Confirmations Envoyées</p>
             </div>
         </div>
     </div>
@@ -644,12 +667,12 @@
             <div class="card-premium">
                 <div class="card-header-premium">
                     <h3 class="card-title-premium">
-                        <i class="fa-regular fa-calendar"></i> Agenda Clinique
+                        <i class="fa-regular fa-calendar"></i> Mon Agenda de Thérapie
                     </h3>
                     <div class="d-flex gap-2">
                         <button class="btn-premium-sm" id="todayBtn">Aujourd'hui</button>
                         <button class="btn-premium-outline-sm" id="refreshBtn"><i class="fa-solid fa-arrows-rotate"></i> Actualiser</button>
-                        <button class="btn-premium-sm" style="background-color: var(--success); color: white;" onclick="loadAllAppointments()"><i class="fa-solid fa-list"></i> Liste des RDV</button>
+                        <button class="btn-premium-sm" style="background-color: var(--success); color: white;" onclick="loadAllAppointments()"><i class="fa-solid fa-list"></i> Liste des Consultations</button>
                     </div>
                 </div>
                 <div id="calendar" style="padding: 5px;"></div>
@@ -659,7 +682,7 @@
             <div class="card-premium" id="allAppointmentsCard" style="display:none;">
                 <div class="card-header-premium">
                     <h3 class="card-title-premium">
-                        <i class="fa-solid fa-list-check"></i> Tous les Rendez-vous
+                        <i class="fa-solid fa-list-check"></i> Historique et Planifications
                     </h3>
                     <button class="btn-premium-outline-sm" onclick="document.getElementById('allAppointmentsCard').style.display='none'">
                         <i class="fa-solid fa-xmark"></i> Masquer
@@ -668,7 +691,7 @@
                 <div id="allAppointments">
                     <div class="empty-state-premium">
                         <i class="fa-solid fa-spinner fa-spin"></i>
-                        <p>Chargement des rendez-vous...</p>
+                        <p>Chargement...</p>
                     </div>
                 </div>
             </div>
@@ -681,7 +704,7 @@
             <div class="card-premium">
                 <div class="card-header-premium">
                     <h3 class="card-title-premium">
-                        <i class="fa-solid fa-clock-rotate-left"></i> Aujourd'hui
+                        <i class="fa-solid fa-clock-rotate-left"></i> Consultations du jour
                     </h3>
                 </div>
                 <div class="today-appointments" id="todayAppointments">
@@ -696,7 +719,7 @@
             <div class="card-premium">
                 <div class="card-header-premium">
                     <h3 class="card-title-premium">
-                        <i class="fa-solid fa-users"></i> Patients récents
+                        <i class="fa-solid fa-users"></i> File active patients
                     </h3>
                 </div>
                 <div class="patient-list" id="recentPatients">
@@ -723,10 +746,10 @@
                 <div class="form-group-premium">
                     <label>Type de notification</label>
                     <div class="d-flex gap-2">
-                        <button type="button" class="btn btn-success flex-grow-1" onclick="sendQuickEmail('confirm')" style="font-weight: 600; padding: 0.6rem; border-radius: 10px;">
+                        <button type="button" class="btn btn-success flex-grow-1" onclick="sendQuickEmail('confirm')" style="font-weight: 600; padding: 0.6rem; border-radius: 10px; background-color: var(--success); border: none;">
                             <i class="fa-solid fa-check"></i> Confirmer
                         </button>
-                        <button type="button" class="btn btn-danger flex-grow-1" onclick="sendQuickEmail('reject')" style="font-weight: 600; padding: 0.6rem; border-radius: 10px;">
+                        <button type="button" class="btn btn-danger flex-grow-1" onclick="sendQuickEmail('reject')" style="font-weight: 600; padding: 0.6rem; border-radius: 10px; background-color: var(--danger); border: none;">
                             <i class="fa-solid fa-xmark"></i> Refuser
                         </button>
                     </div>
@@ -737,11 +760,11 @@
     </div>
 </div>
 
-<!-- Modal Edit RDV & Dossier Medical -->
+<!-- Modal Edit RDV & Suivi Therapeutique -->
 <div class="modal-overlay-premium" id="editAppointmentModal">
     <div class="modal-card-premium">
         <div class="modal-card-header">
-            <h3 id="modalPatientHeader">Gestion du Rendez-vous</h3>
+            <h3 id="modalPatientHeader">Gestion de Consultation</h3>
             <button class="close-modal-btn" onclick="closeEditModal()"><i class="fa-solid fa-xmark"></i></button>
         </div>
         
@@ -749,10 +772,10 @@
         <div style="padding: 0 1.5rem;">
             <div class="modal-tabs">
                 <div class="modal-tab active" id="tabGeneralBtn" onclick="switchTab('general')">
-                    <i class="fa-regular fa-calendar-days"></i> Détails RDV
+                    <i class="fa-regular fa-calendar-days"></i> Détails Consultation
                 </div>
                 <div class="modal-tab" id="tabMedicalBtn" onclick="switchTab('medical')">
-                    <i class="fa-solid fa-file-medical"></i> Dossier Médical
+                    <i class="fa-solid fa-brain"></i> Notes et Suivi
                 </div>
             </div>
         </div>
@@ -767,18 +790,18 @@
                         <input type="text" id="editPatientName" required>
                     </div>
                     <div class="form-group-premium">
-                        <label>Date et heure de consultation *</label>
+                        <label>Date et heure de séance *</label>
                         <input type="datetime-local" id="editAppointmentDate" required>
                     </div>
                     <div class="form-group-premium">
                         <label>Type de Consultation *</label>
                         <select id="editAppointmentType">
-                            <option value="cabinet">Au cabinet (En personne)</option>
-                            <option value="teleconsultation">Télévisite (Visioconférence)</option>
+                            <option value="cabinet">Au cabinet</option>
+                            <option value="teleconsultation">Téléconsultation (Visioconférence)</option>
                         </select>
                     </div>
                     <div class="form-group-premium">
-                        <label>Adresse email</label>
+                        <label>Adresse email du patient</label>
                         <input type="email" id="editPatientEmail" placeholder="Ex: patient@gmail.com">
                     </div>
                     <div class="form-group-premium">
@@ -788,24 +811,24 @@
                 </form>
             </div>
 
-            <!-- Tab 2: Medical File (Symptoms, Diagnosis, Prescriptions) -->
+            <!-- Tab 2: Follow-up File (Customized for Psychotherapy) -->
             <div class="tab-content" id="tabMedical">
                 <form id="editMedicalForm">
                     <div class="form-group-premium">
-                        <label>Symptômes signalés</label>
-                        <textarea id="editSymptomes" placeholder="Ex: Fièvre persistante, maux de gorge..." rows="2"></textarea>
+                        <label>Motif de consultation & Symptômes</label>
+                        <textarea id="editSymptomes" placeholder="Ex: Anxiété, troubles du sommeil, deuil..." rows="2"></textarea>
                     </div>
                     <div class="form-group-premium">
-                        <label>Diagnostic clinique</label>
-                        <textarea id="editDiagnostic" placeholder="Ex: Pharyngite aiguë..." rows="2"></textarea>
+                        <label>Observations cliniques & Synthèse d'entretien</label>
+                        <textarea id="editDiagnostic" placeholder="Ex: État anxio-dépressif léger, verbalisation fluide..." rows="2"></textarea>
                     </div>
                     <div class="form-group-premium">
-                        <label>Notes cliniques confidentielles</label>
-                        <textarea id="editNotes" placeholder="Détails supplémentaires d'observation..." rows="2"></textarea>
+                        <label>Notes de séance confidentielles</label>
+                        <textarea id="editNotes" placeholder="Notes personnelles et points d'attention pour la prochaine séance..." rows="3"></textarea>
                     </div>
                     <div class="form-group-premium">
-                        <label>Ordonnance prescrite</label>
-                        <textarea id="editOrdonnance" placeholder="Ex: Amoxicilline 1g - 2x/jour pendant 6 jours..." rows="3"></textarea>
+                        <label>Objectifs de thérapie & Exercices recommandés</label>
+                        <textarea id="editOrdonnance" placeholder="Ex: Respiration carrée, journal d'anxiété..." rows="2"></textarea>
                     </div>
                 </form>
             </div>
@@ -815,9 +838,9 @@
 
         <div class="modal-card-footer">
             <button type="button" class="btn btn-outline-secondary" onclick="closeEditModal()" style="border-radius: 10px; font-weight: 600;">Annuler</button>
-            <button type="button" class="btn btn-danger" id="deleteAppointmentBtn" style="border-radius: 10px; font-weight: 600;"><i class="fa-solid fa-trash"></i> Supprimer</button>
+            <button type="button" class="btn btn-danger" id="deleteAppointmentBtn" style="border-radius: 10px; font-weight: 600; background-color: var(--danger); border: none;"><i class="fa-solid fa-trash"></i> Supprimer</button>
             <!-- Dynamic Save Button -->
-            <button type="button" class="btn btn-primary" id="saveBtn" onclick="submitModalForm()" style="border-radius: 10px; font-weight: 600; margin-top:0;">
+            <button type="button" class="btn btn-primary" id="saveBtn" onclick="submitModalForm()" style="border-radius: 10px; font-weight: 600; margin-top:0; background-color: var(--primary); border: none;">
                 <i class="fa-solid fa-save"></i> Enregistrer
             </button>
         </div>
@@ -929,7 +952,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('todayBtn').addEventListener('click', () => calendar.today());
     document.getElementById('refreshBtn').addEventListener('click', refreshAll);
     document.getElementById('deleteAppointmentBtn').addEventListener('click', function() {
-        if (confirm('Êtes-vous sûr de vouloir supprimer définitivement ce rendez-vous ?')) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer cette consultation ?')) {
             deleteAppointment();
         }
     });
@@ -966,7 +989,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     container.innerHTML = `
                         <div class="empty-state-premium">
                             <i class="fa-regular fa-calendar-check"></i>
-                            <p>Aucun rendez-vous aujourd'hui</p>
+                            <p>Aucune séance planifiée aujourd'hui</p>
                         </div>`;
                     return;
                 }
@@ -984,8 +1007,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     const isOnline = appointment.type === 'teleconsultation';
                     const typeBadge = isOnline 
-                        ? '<span class="type-badge-premium type-teleconsultation" style="font-size: 0.725rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 6px; margin-top: 4px; display: inline-flex; align-items: center; gap: 4px; background-color: #f3e8ff; color: #7e22ce;"><i class="fa-solid fa-video"></i> Télévisite</span>' 
-                        : '<span class="type-badge-premium type-cabinet" style="font-size: 0.725rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 6px; margin-top: 4px; display: inline-flex; align-items: center; gap: 4px; background-color: #e0f2fe; color: #0369a1;"><i class="fa-solid fa-hospital"></i> Au cabinet</span>';
+                        ? '<span class="type-badge-premium type-teleconsultation"><i class="fa-solid fa-video"></i> Visioconférence</span>' 
+                        : '<span class="type-badge-premium type-cabinet"><i class="fa-solid fa-hospital"></i> Au cabinet</span>';
 
                     let videoBtn = '';
                     if (appointment.status === 'confirmed' && isOnline) {
@@ -998,7 +1021,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             videoBtn = `
                         <div class="mt-1">
                             <a href="https://meet.jit.si/CareConnect-RDV-${appointment.id}" target="_blank" class="btn btn-sm btn-primary" style="font-size: 11px; font-weight: 700; border-radius: 6px; padding: 2px 8px; background-color: var(--primary); border: none; color: white; display: inline-flex; align-items: center; gap: 4px;">
-                                <i class="fa-solid fa-video"></i> Rejoindre la télévisite
+                                <i class="fa-solid fa-video"></i> Rejoindre la visioconférence
                             </a>
                         </div>`;
                         } else if (now < opensAt) {
@@ -1055,15 +1078,15 @@ document.addEventListener('DOMContentLoaded', function() {
                             <button class="btn-action-confirmed" onclick="sendEmailFromList(${appointment.id}, 'confirm', '${(appointment.patient_name || '').replace("'", "\\'")}')" title="Confirmer">
                                 <i class="fa-solid fa-check"></i>
                             </button>
-                            <button class="btn-action-rejected" onclick="sendEmailFromList(${appointment.id}, 'reject', '${(appointment.patient_name || '').replace("'", "\\'")}')" title="Refuser">
+                            <button class="btn-action-rejected" onclick="sendEmailFromList(${appointment.id}, 'reject', '${(appointment.patient_name || '').replace("'", "\\'")}')" title="Annuler">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                             ${moreThan24h3 && !appointment.reschedule_requested_by ? `
                             <button class="btn-action-edit" onclick="openRescheduleModal(${appointment.id})" title="Reporter / avancer">
                                 <i class="fa-solid fa-calendar-days"></i>
                             </button>` : ''}
-                            <button class="btn-action-edit" onclick="openEditModal(${appointment.id})" title="Gérer">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                            <button class="btn-action-edit" onclick="openEditModal(${appointment.id})" title="Notes">
+                                <i class="fa-solid fa-brain"></i>
                             </button>
                         </div>
                     </div>`;
@@ -1099,7 +1122,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="patient-avatar-premium">${p.initials || '??'}</div>
                         <div style="flex:1;">
                             <div style="font-weight:700; color: var(--dark); font-size: 0.95rem;">${p.name || 'Nom inconnu'}</div>
-                            <div style="font-size:12px; color:var(--text-muted);">Dernière visite: ${p.last_visit || 'N/A'}</div>
+                            <div style="font-size:12px; color:var(--text-muted);">Dernière séance: ${p.last_visit || 'N/A'}</div>
                         </div>
                         <i class="fa-solid fa-folder-open" style="color: var(--text-muted); font-size: 0.85rem;" title="Voir la fiche"></i>
                     </div>`;
@@ -1125,7 +1148,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============ EMAIL ACTIONS ============
     window.sendEmailFromList = function(appointmentId, action, patientName) {
         const defaultMsg = getDefaultMessage(action, patientName);
-        const message = prompt(action === 'confirm' ? `Message de confirmation pour ${patientName}:` : `Raison du refus pour ${patientName}:`, defaultMsg);
+        const message = prompt(action === 'confirm' ? `Message de confirmation pour ${patientName}:` : `Raison de l'annulation pour ${patientName}:`, defaultMsg);
         if (message === null) return;
         sendEmail(appointmentId, action, message);
     };
@@ -1141,7 +1164,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedOption = select.options[select.selectedIndex];
         const patientName = selectedOption.textContent.split(' - ')[0];
         const defaultMsg = getDefaultMessage(action, patientName);
-        const message = prompt(action === 'confirm' ? `Message de confirmation pour ${patientName}:` : `Raison du refus pour ${patientName}:`, defaultMsg);
+        const message = prompt(action === 'confirm' ? `Message de confirmation pour ${patientName}:` : `Raison de l'annulation pour ${patientName}:`, defaultMsg);
         if (message === null) return;
         sendEmail(appointmentId, action, message);
     };
@@ -1179,8 +1202,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function getDefaultMessage(action, patientName = '') {
-        if (action === 'confirm') return `Bonjour ${patientName}, votre rendez-vous chez CareConnect est confirmé. À bientôt !`;
-        if (action === 'reject') return `Bonjour ${patientName}, pour des raisons d'indisponibilité, votre rendez-vous a été décliné. Veuillez choisir un autre créneau.`;
+        if (action === 'confirm') return `Bonjour ${patientName}, votre consultation avec votre psychologue est confirmée. À bientôt !`;
+        if (action === 'reject') return `Bonjour ${patientName}, suite à un imprévu, votre consultation a dû être décalée ou annulée. Merci de choisir une autre heure.`;
         return '';
     }
 
@@ -1208,14 +1231,14 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(result => {
                 if (result.success) {
                     const a = result.appointment;
-                    document.getElementById('modalPatientHeader').textContent = `Dossier - ${a.patient_name}`;
+                    document.getElementById('modalPatientHeader').textContent = `Dossier Psy - ${a.patient_name}`;
                     document.getElementById('editAppointmentId').value = a.id;
                     document.getElementById('editPatientName').value = a.patient_name;
                     document.getElementById('editAppointmentType').value = a.appointment_type || 'cabinet';
                     document.getElementById('editPatientEmail').value = a.patient_email || '';
                     document.getElementById('editPatientPhone').value = a.patient_phone || '';
                     
-                    // Medical fields loading
+                    // Psychotherapy clinical notes
                     document.getElementById('editSymptomes').value = a.symptomes || '';
                     document.getElementById('editDiagnostic').value = a.diagnostic || '';
                     document.getElementById('editNotes').value = a.notes || '';
@@ -1233,7 +1256,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(err => {
                 console.error(err);
-                alert('Erreur lors du chargement du dossier');
+                alert('Erreur lors du chargement des informations');
             });
     };
 
@@ -1416,7 +1439,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(r => r.json())
         .then(result => {
             if (result.success) {
-                messageDiv.innerHTML = `<div class="alert alert-success mt-2">🎉 Fiche médicale sauvegardée !</div>`;
+                messageDiv.innerHTML = `<div class="alert alert-success mt-2">🎉 Notes thérapeutiques sauvegardées !</div>`;
                 setTimeout(() => {
                     closeEditModal();
                     messageDiv.innerHTML = '';
@@ -1478,7 +1501,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(events => {
                 const container = document.getElementById('allAppointments');
                 if (!events || events.length === 0) {
-                    container.innerHTML = '<div class="empty-state-premium"><i class="fa-solid fa-calendar-xmark"></i><p>Aucun rendez-vous programmé</p></div>';
+                    container.innerHTML = '<div class="empty-state-premium"><i class="fa-solid fa-calendar-xmark"></i><p>Aucune séance programmée</p></div>';
                     return;
                 }
                 
@@ -1491,8 +1514,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     const isOnline = event.extendedProps?.type === 'teleconsultation';
                     const typeBadge = isOnline 
-                        ? '<span class="type-badge-premium type-teleconsultation" style="font-size: 0.725rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 6px; margin-top: 4px; display: inline-flex; align-items: center; gap: 4px; background-color: #f3e8ff; color: #7e22ce;"><i class="fa-solid fa-video"></i> Télévisite</span>' 
-                        : '<span class="type-badge-premium type-cabinet" style="font-size: 0.725rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 6px; margin-top: 4px; display: inline-flex; align-items: center; gap: 4px; background-color: #e0f2fe; color: #0369a1;"><i class="fa-solid fa-hospital"></i> Au cabinet</span>';
+                        ? '<span class="type-badge-premium type-teleconsultation"><i class="fa-solid fa-video"></i> Visioconférence</span>' 
+                        : '<span class="type-badge-premium type-cabinet"><i class="fa-solid fa-hospital"></i> Au cabinet</span>';
 
                     let videoBtn = '';
                     if (event.extendedProps?.status === 'confirmed' && isOnline) {
@@ -1504,7 +1527,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             videoBtn = `
                         <div class="mt-1">
                             <a href="https://meet.jit.si/CareConnect-RDV-${event.id}" target="_blank" class="btn btn-sm btn-primary" style="font-size: 11px; font-weight: 700; border-radius: 6px; padding: 2px 8px; background-color: var(--primary); border: none; color: white; display: inline-flex; align-items: center; gap: 4px;">
-                                <i class="fa-solid fa-video"></i> Rejoindre la télévisite
+                                <i class="fa-solid fa-video"></i> Rejoindre la visioconférence
                             </a>
                         </div>`;
                         } else if (now2 < opensAt2) {
@@ -1543,11 +1566,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             <button class="btn-action-confirmed" onclick="sendEmailFromList(${event.id}, 'confirm', '${patientName.replace("'", "\\'")}')" title="Confirmer">
                                 <i class="fa-solid fa-check"></i>
                             </button>
-                            <button class="btn-action-rejected" onclick="sendEmailFromList(${event.id}, 'reject', '${patientName.replace("'", "\\'")}')" title="Refuser">
+                            <button class="btn-action-rejected" onclick="sendEmailFromList(${event.id}, 'reject', '${patientName.replace("'", "\\'")}')" title="Annuler">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
-                            <button class="btn-action-edit" onclick="openEditModal(${event.id})" title="Gérer">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                            <button class="btn-action-edit" onclick="openEditModal(${event.id})" title="Notes">
+                                <i class="fa-solid fa-brain"></i>
                             </button>
                         </div>
                     </div>`;
@@ -1557,8 +1580,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('allAppointmentsCard').scrollIntoView({ behavior: 'smooth' });
             })
             .catch(err => {
-                console.error('Erreur tous les RDV:', err);
-                container.innerHTML = '<div class="empty-state-premium"><i class="fa-solid fa-circle-exclamation text-danger"></i><p>Erreur lors du chargement des rendez-vous</p></div>';
+                console.error('Erreur consultations:', err);
+                container.innerHTML = '<div class="empty-state-premium"><i class="fa-solid fa-circle-exclamation text-danger"></i><p>Erreur de chargement</p></div>';
             });
     };
 

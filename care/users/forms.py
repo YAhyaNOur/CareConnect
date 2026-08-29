@@ -24,17 +24,20 @@ class InscPatient(ModelForm):
 class InscPsy(ModelForm):
     class Meta:
         model = psy_insc
-        fields = ["Name", "email", "password", "passw", "fichiers"]
+        fields = ["Name", "email", "password", "passw", "fichiers", "localisation_cabinet", "latitude", "longitude"]
         labels = {
             'Name': 'Nom & Prénom',
             'email': 'Adresse e-mail',
             'password': 'Mot de passe',
             'passw': 'Confirmation du mot de passe',
             'fichiers': 'Fichier à télécharger',
+            'localisation_cabinet': 'Localisation du cabinet',
         }
         widgets = {
             'password': forms.PasswordInput(attrs={'class':'form-control'}),
             'passw': forms.PasswordInput(attrs={'class':'form-control'}),
+            'latitude': forms.HiddenInput(),
+            'longitude': forms.HiddenInput(),
         }
 
 

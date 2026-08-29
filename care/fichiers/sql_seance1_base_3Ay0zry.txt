@@ -1,0 +1,379 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mer. Oct. 1 09:24:24 2025
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect
+Enter user-name: sys/as sysdb
+SP2-0306: Invalid option.
+Usage: CONN[ECT] [{logon|/|proxy} [AS {SYSDBA|SYSOPER|SYSASM}] [edition=value]]
+where <logon> ::= <username>[/<password>][@<connect_identifier>]
+      <proxy> ::= <proxyuser>[<username>][/<password>][@<connect_identifier>]
+SQL> connect
+Enter user-name: sys /as sysdb
+SP2-0306: Invalid option.
+Usage: CONN[ECT] [{logon|/|proxy} [AS {SYSDBA|SYSOPER|SYSASM}] [edition=value]]
+where <logon> ::= <username>[/<password>][@<connect_identifier>]
+      <proxy> ::= <proxyuser>[<username>][/<password>][@<connect_identifier>]
+SQL> connect
+Enter user-name: sys
+Enter password:
+ERROR:
+ORA-28009: connection as SYS should be as SYSDBA or SYSOPER
+
+
+SQL> show user
+USER is ""
+SQL> connect
+Enter user-name: sys /sysdba
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> connect
+Enter user-name: sys /as sysdba
+Enter password:
+Connected.
+SQL> show user
+USER is "SYS"
+SQL> select account_status
+  2  from dba_users
+  3  where username ='HR';
+
+ACCOUNT_STATUS
+--------------------------------
+EXPIRED & LOCKED
+
+SQL> alter user hr
+  2  account unlock
+  3  identidied by hr;
+identidied by hr
+*
+ERROR at line 3:
+ORA-00922: missing or invalid option
+
+
+SQL> alter user hr
+  2  account by hr
+  3
+SQL> alter user hr
+  2  account unlock
+  3  identified by hr ;
+
+User altered.
+
+SQL> select account_status
+  2  from dba_users
+  3  where username = 'HR' ;
+
+ACCOUNT_STATUS
+--------------------------------
+OPEN
+
+SQL> grant create public synonym
+  2  to hr ;
+
+Grant succeeded.
+
+SQL>
+SQL> create user hr20
+  2  identified by hr20;
+
+User created.
+
+SQL> grant connect,
+  2  resource to hr20;
+
+Grant succeeded.
+
+SQL> grant select on emps230
+  2  to hr20;
+grant select on emps230
+                *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> grant select on emps23
+  2  to hr20;
+
+Grant succeeded.
+
+SQL> grant create view to hr20;
+
+Grant succeeded.
+
+SQL>
+=========================================================================================
+Microsoft Windows [version 10.0.26100.6584]
+(c) Microsoft Corporation. Tous droits réservés.
+
+C:\Users\user>sqlplus
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mer. Oct. 1 09:23:36 2025
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+Enter user-name: system
+Enter password:
+
+Connected to:
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+
+SQL> show user
+USER is "SYSTEM"
+SQL> disc
+Disconnected from Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+SQL> conn
+Enter user-name: hr
+Enter password:
+Connected.
+SQL> show user
+USER is "HR"
+SQL> select  * from tab ;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+COUNTRIES                      TABLE
+DEPARTMENTS                    TABLE
+EMPLOYEES                      TABLE
+EMP_DETAILS_VIEW               VIEW
+JOBS                           TABLE
+JOB_HISTORY                    TABLE
+LOCATIONS                      TABLE
+REGIONS                        TABLE
+
+8 rows selected.
+
+SQL> create public synonym
+  2  emps23 for employees ;
+create public synonym
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges
+
+
+SQL> create public synonym
+  2  emps23 for employees;
+
+Synonym created.
+
+SQL> disc
+Disconnected from Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+SQL> conn
+Enter user-name: hr20
+Enter password:
+Connected.
+SQL> show user
+USER is "HR20"
+SQL> select count(*) from emps230;
+select count(*) from emps230
+                     *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select count(*) from emps23;
+
+  COUNT(*)
+----------
+       107
+
+SQL> create table emps
+  2  as select employee_id ,first_name,
+  3  last_name,departement_id
+  4  from emps23;
+last_name,departement_id
+          *
+ERROR at line 3:
+ORA-00904: "DEPARTEMENT_ID": invalid identifier
+
+
+SQL> create table emps
+  2  as select employee_id ,first_name,
+  3  last_name,department_id
+  4  from emps23;
+
+Table created.
+
+SQL> slect from * tab;
+SP2-0734: unknown command beginning "slect from..." - rest of line ignored.
+SQL> select from * tab;
+select from * tab
+       *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> select * from  tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMPS                           TABLE
+
+SQL> select view emp1 as
+  2  select * from EMPS
+  3  where department_id =50;
+select view emp1 as
+       *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> create view vemp1 as
+  2  select * from EMPS
+  3  where department_id =50;
+
+View created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMPS                           TABLE
+VEMP1                          VIEW
+
+SQL> select count (*) from vemp1;
+
+  COUNT(*)
+----------
+        45
+
+SQL> insert into vemp1;
+insert into vemp1
+                *
+ERROR at line 1:
+ORA-00926: missing VALUES keyword
+
+
+SQL> insert into vemp1
+  2  values (300,'A','B',60);
+
+1 row created.
+
+SQL> select count (*) from vemp1;
+
+  COUNT(*)
+----------
+        45
+
+SQL> select count (*) from EMPS;
+
+  COUNT(*)
+----------
+       108
+
+SQL> create view vemp2 as
+  2  select * from EMPS
+  3  where deârtment_id =50
+  4
+SQL> create view vemp2 as
+  2  where department_id =50
+  3  with check option;
+where department_id =50
+*
+ERROR at line 2:
+ORA-00928: missing SELECT keyword
+
+
+SQL> create view vemp2 as
+  2  select * from EMPS
+  3  where department_id =50
+  4  with check option;
+
+View created.
+
+SQL> insert into vemp2
+  2  values (301,'A',60);
+insert into vemp2
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into vemp2
+  2  values (301,'A',50);
+insert into vemp2
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into vemp2
+  2  values (301,'A','B',60);
+insert into vemp2
+            *
+ERROR at line 1:
+ORA-01402: view WITH CHECK OPTION where-clause violation
+
+
+SQL> insert into vemp2
+  2  values (301,'A','B',50);
+
+1 row created.
+
+SQL> insert into vemp3
+  2
+SQL> create view vemp3 as
+  2  select * from EMPS
+  3  where deârtment_id =50
+  4  with read only ;
+where deârtment_id =50
+      *
+ERROR at line 3:
+ORA-00904: "DEâRTMENT_ID": invalid identifier
+
+
+SQL> create view vemp3 as
+  2  select * from EMPS
+  3  where department_id =50
+  4  with read only ;
+
+View created.
+
+SQL> insert into vemp3
+  2  values (301,'A','B',50);
+insert into vemp3
+*
+ERROR at line 1:
+ORA-42399: cannot perform a DML operation on a read-only view
+
+
+SQL> create sequence seq start with 1 increment by 1;
+
+Sequence created.
+
+SQL> create table emp50
+  2  as select employee_id ,first_name,last_name,department_id
+  3  from vemp1;
+
+Table created.
+
+SQL> create table emp50
+  2  as select seq.nextval employye_id,
+  3  first_name,
+  4  last_name,
+  5  department_id
+  6  from vemp1;
+create table emp50
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> create table emp60
+  2  as select seq.nextval employye_id,
+  3  first_name,
+  4  last_name,
+  5  department_id
+  6  from vemp1;
+
+Table created.
+
+SQL> select * from emp60
+  2
+SQL> select seq.currval from dual ;
+
+   CURRVAL
+----------
+        46

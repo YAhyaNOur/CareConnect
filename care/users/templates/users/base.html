@@ -1,350 +1,406 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}CareConnect{% endblock %}</title>
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --font-sans: 'Plus Jakarta Sans', sans-serif;
-            --font-display: 'Outfit', sans-serif;
-            
-            /* Color System */
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --primary-light: #eff6ff;
-            --secondary: #4f46e5;
-            --secondary-hover: #4338ca;
-            --success: #10b981;
-            --success-light: #ecfdf5;
-            --warning: #f59e0b;
-            --warning-light: #fffbeb;
-            --danger: #ef4444;
-            --danger-light: #fef2f2;
-            --dark: #0f172a;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --text-main: #334155;
-            --text-muted: #64748b;
-            
-            /* Layout & Shadows */
-            --radius-lg: 16px;
-            --radius-xl: 24px;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}CareConnect{% endblock %}</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
 
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        /* Glassmorphic Sticky Header */
-        .custom-navbar {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
-            padding: 0.85rem 0;
-            transition: var(--transition);
-        }
+  <style>
+    :root {
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-display: 'Outfit', sans-serif;
 
-        .navbar-brand {
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 1.6rem;
-            letter-spacing: -0.8px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+      /* Color System */
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
+      --secondary: #4f46e5;
+      --secondary-hover: #4338ca;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --warning: #f59e0b;
+      --warning-light: #fffbeb;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --dark: #0f172a;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #334155;
+      --text-muted: #64748b;
 
-        .navbar-brand i {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+      /* Layout & Shadows */
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        .nav-link {
-            font-weight: 600;
-            color: var(--text-main) !important;
-            padding: 0.6rem 1.25rem !important;
-            border-radius: 9999px;
-            transition: var(--transition);
-            font-size: 0.95rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        .nav-link:hover {
-            color: var(--primary) !important;
-            background-color: var(--primary-light);
-        }
+    /* Glassmorphic Sticky Header */
+    .custom-navbar {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+      padding: 0.85rem 0;
+      transition: var(--transition);
+    }
 
-        /* Profile links */
-        .nav-link.btn-doctor {
-            background: rgba(37, 99, 235, 0.08);
-            color: var(--primary) !important;
-        }
-        .nav-link.btn-doctor:hover {
-            background: var(--primary);
-            color: white !important;
-        }
+    .navbar-brand {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.6rem;
+      letter-spacing: -0.8px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .nav-link.btn-patient {
-            background: rgba(16, 185, 129, 0.08);
-            color: var(--success) !important;
-        }
-        .nav-link.btn-patient:hover {
-            background: var(--success);
-            color: white !important;
-        }
+    .navbar-brand i {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .nav-link.btn-psy {
-            background: rgba(79, 70, 229, 0.08);
-            color: var(--secondary) !important;
-        }
-        .nav-link.btn-psy:hover {
-            background: var(--secondary);
-            color: white !important;
-        }
+    .nav-link {
+      font-weight: 600;
+      color: var(--text-main) !important;
+      padding: 0.6rem 1.25rem !important;
+      border-radius: 9999px;
+      transition: var(--transition);
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-        /* Container & Grid */
-        .main-container {
-            flex: 1;
-            padding-bottom: 4rem;
-        }
+    .nav-link:hover {
+      color: var(--primary) !important;
+      background-color: var(--primary-light);
+    }
 
-        /* Footer Redesign */
-        .custom-footer {
-            background-color: white;
-            border-top: 1px solid var(--border-color);
-            padding: 3rem 0 2rem 0;
-            margin-top: auto;
-        }
+    /* Profile links */
+    .nav-link.btn-doctor {
+      background: rgba(37, 99, 235, 0.08);
+      color: var(--primary) !important;
+    }
 
-        .footer-brand {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: var(--dark);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+    .nav-link.btn-doctor:hover {
+      background: var(--primary);
+      color: white !important;
+    }
 
-        .footer-text {
-            color: var(--text-muted);
-            font-size: 0.925rem;
-            line-height: 1.6;
-        }
+    .nav-link.btn-patient {
+      background: rgba(16, 185, 129, 0.08);
+      color: var(--success) !important;
+    }
 
-        .footer-links {
-            list-style: none;
-            padding-left: 0;
-            margin-bottom: 0;
-        }
+    .nav-link.btn-patient:hover {
+      background: var(--success);
+      color: white !important;
+    }
 
-        .footer-links li {
-            margin-bottom: 0.75rem;
-        }
+    .nav-link.btn-psy {
+      background: rgba(79, 70, 229, 0.08);
+      color: var(--secondary) !important;
+    }
 
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.925rem;
-            transition: var(--transition);
-        }
+    .nav-link.btn-psy:hover {
+      background: var(--secondary);
+      color: white !important;
+    }
 
-        .footer-links a:hover {
-            color: var(--primary);
-            padding-left: 4px;
-        }
+    /* Container & Grid */
+    .main-container {
+      flex: 1;
+      padding-bottom: 4rem;
+    }
 
-        .footer-socials {
-            display: flex;
-            gap: 12px;
-            margin-top: 1rem;
-        }
+    /* Footer Redesign */
+    .custom-footer {
+      background-color: white;
+      border-top: 1px solid var(--border-color);
+      padding: 3rem 0 2rem 0;
+      margin-top: auto;
+    }
 
-        .social-icon {
-            width: 38px;
-            height: 38px;
-            background-color: #f1f5f9;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-main);
-            transition: var(--transition);
-            text-decoration: none;
-        }
+    .footer-brand {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-        .social-icon:hover {
-            background-color: var(--primary);
-            color: white;
-            transform: translateY(-2px);
-        }
+    .footer-text {
+      color: var(--text-muted);
+      font-size: 0.925rem;
+      line-height: 1.6;
+    }
 
-        .copyright-section {
-            border-top: 1px solid var(--border-color);
-            padding-top: 1.5rem;
-            margin-top: 2.5rem;
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
+    .footer-links {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 0;
+    }
 
-        /* Global UI Elements */
-        .btn-premium {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 0.8rem 1.75rem;
-            font-weight: 600;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-        }
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
 
-        .btn-premium:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
-            color: white;
-        }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.925rem;
+      transition: var(--transition);
+    }
 
-        .card-premium {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
-        }
+    .footer-links a:hover {
+      color: var(--primary);
+      padding-left: 4px;
+    }
 
-        .card-premium:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-3px);
-            border-color: rgba(37, 99, 235, 0.15);
-        }
-    </style>
-    {% block extra_css %}{% endblock %}
+    .footer-socials {
+      display: flex;
+      gap: 12px;
+      margin-top: 1rem;
+    }
+
+    .social-icon {
+      width: 38px;
+      height: 38px;
+      background-color: #f1f5f9;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .social-icon:hover {
+      background-color: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .copyright-section {
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.5rem;
+      margin-top: 2.5rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Global UI Elements */
+    .btn-premium {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 0.8rem 1.75rem;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-premium:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+      color: white;
+    }
+
+    .card-premium {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .card-premium:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+      border-color: rgba(37, 99, 235, 0.15);
+    }
+  </style>
+  {% block extra_css %}{% endblock %}
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-lg custom-navbar sticky-top">
-  <div class="container">
-    <a class="navbar-brand" href="{% url 'users:home' %}">
-      <i class="fa-solid fa-heart-pulse"></i> CareConnect
-    </a>
-    
-    <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav ms-auto gap-2 mt-2 mt-lg-0">
-        <li class="nav-item">
-          <a class="nav-link btn-doctor" href="{% url 'users:medecin_login' %}">
-            <i class="fa-solid fa-user-md"></i> Espace Médecin
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn-patient" href="{% url 'users:login_patient' %}">
-            <i class="fa-solid fa-user-injured"></i> Espace Patient
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn-psy" href="{% url 'users:login_psy' %}">
-            <i class="fa-solid fa-brain"></i> Espace Psychologue
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<div class="container main-container mt-5">
-    {% block content %}{% endblock %}
-</div>
-
-<footer class="custom-footer">
+  <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
     <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-5 col-md-6">
-                <div class="footer-brand">
-                    <i class="fa-solid fa-heart-pulse"></i> CareConnect
-                </div>
-                <p class="footer-text mb-4">
-                    La plateforme médicale connectée de confiance. Nous facilitons la mise en relation entre les patients et les meilleurs professionnels de la santé pour des soins plus humains, rapides et sécurisés.
-                </p>
-                <div class="footer-socials">
-                    <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="#" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6 col-6 ms-auto">
-                <h6 class="text-uppercase fw-bold mb-3 text-dark">Raccourcis</h6>
-                <ul class="footer-links">
-                    <li><a href="{% url 'users:medecin_login' %}">Espace Professionnel</a></li>
-                    <li><a href="{% url 'users:login_patient' %}">Espace Patient</a></li>
-                    <li><a href="{% url 'users:login_psy' %}">Espace Psychologue</a></li>
-                    <li><a href="{% url 'users:home' %}">Retour à l'accueil</a></li>
-                </ul>
-            </div>
-            
-            <div class="col-lg-3 col-md-6 col-6">
-                <h6 class="text-uppercase fw-bold mb-3 text-dark">Aide & Contact</h6>
-                <ul class="footer-links">
-                    <li><a href="#">Support Client</a></li>
-                    <li><a href="#">FAQ / Questions</a></li>
-                    <li><a href="#">Conditions d'utilisation</a></li>
-                    <li><a href="#">Confidentialité</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="row copyright-section">
-            <div class="col-md-6 text-center text-md-start">
-                <p class="mb-0">&copy; 2026 CareConnect. Tous droits réservés.</p>
-            </div>
-            <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
-                <p class="mb-0">Fait avec <i class="fa-solid fa-heart text-danger"></i> pour votre santé.</p>
-            </div>
-        </div>
-    </div>
-</footer>
+      <a class="navbar-brand" href="{% url 'users:home' %}">
+        <i class="fa-solid fa-heart-pulse"></i> CareConnect
+      </a>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-{% block extra_js %}{% endblock %}
+      <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav ms-auto gap-2 mt-2 mt-lg-0">
+          {% if request.session.medecin_email %}
+          <li class="nav-item">
+            <a class="nav-link btn-doctor" href="{% url 'users:medecin_dashboard' %}">
+              <i class="fa-solid fa-gauge-high"></i> Dashboard Médecin
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="{% url 'users:logout' %}">
+              <i class="fa-solid fa-power-off"></i> Déconnexion
+            </a>
+          </li>
+          {% elif request.session.psy_email %}
+          <li class="nav-item">
+            <a class="nav-link btn-psy" href="{% url 'users:psy_dashboard' %}">
+              <i class="fa-solid fa-gauge-high"></i> Dashboard Psychologue
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="{% url 'users:logout' %}">
+              <i class="fa-solid fa-power-off"></i> Déconnexion
+            </a>
+          </li>
+          {% elif request.session.patient_email %}
+          <li class="nav-item">
+            <a class="nav-link btn-patient" href="{% url 'users:interface_patient' %}">
+              <i class="fa-solid fa-user-doctor"></i> Trouver un médecin
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-psy" href="{% url 'users:my_rdv' %}">
+              <i class="fa-solid fa-brain"></i> Trouver un psy
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-doctor" href="{% url 'users:compte_patient' %}">
+              <i class="fa-regular fa-circle-user"></i> Mon Profil
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="{% url 'users:logout' %}">
+              <i class="fa-solid fa-power-off"></i> Déconnexion
+            </a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link btn-doctor" href="{% url 'users:medecin_login' %}">
+              <i class="fa-solid fa-user-md"></i> Espace Médecin
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-patient" href="{% url 'users:login_patient' %}">
+              <i class="fa-solid fa-user-injured"></i> Espace Patient
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-psy" href="{% url 'users:login_psy' %}">
+              <i class="fa-solid fa-brain"></i> Espace Psychologue
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container main-container mt-5">
+    {% block content %}{% endblock %}
+  </div>
+
+  <footer class="custom-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-5 col-md-6">
+          <div class="footer-brand">
+            <i class="fa-solid fa-heart-pulse"></i> CareConnect
+          </div>
+          <p class="footer-text mb-4">
+            La plateforme médicale connectée de confiance. Nous facilitons la mise en relation entre les patients et les
+            meilleurs professionnels de la santé pour des soins plus humains, rapides et sécurisés.
+          </p>
+          <div class="footer-socials">
+            <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-6 ms-auto">
+          <h6 class="text-uppercase fw-bold mb-3 text-dark">Raccourcis</h6>
+          <ul class="footer-links">
+            <li><a href="{% url 'users:medecin_login' %}">Espace Professionnel</a></li>
+            <li><a href="{% url 'users:login_patient' %}">Espace Patient</a></li>
+            <li><a href="{% url 'users:login_psy' %}">Espace Psychologue</a></li>
+            <li><a href="{% url 'users:home' %}">Retour à l'accueil</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-6">
+          <h6 class="text-uppercase fw-bold mb-3 text-dark">Aide & Contact</h6>
+          <ul class="footer-links">
+            <li><a href="#">Support Client</a></li>
+            <li><a href="#">FAQ / Questions</a></li>
+            <li><a href="#">Conditions d'utilisation</a></li>
+            <li><a href="#">Confidentialité</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row copyright-section">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="mb-0">&copy; 2026 CareConnect. Tous droits réservés.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+          <p class="mb-0">Fait avec <i class="fa-solid fa-heart text-danger"></i> pour votre santé.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  {% block extra_js %}{% endblock %}
 </body>
+
 </html>

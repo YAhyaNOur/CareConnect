@@ -224,7 +224,7 @@
             <i class="fa-regular fa-envelope-open"></i>
         </div>
         <h2>Vérification de compte</h2>
-        <p class="desc">Un code de vérification à 6 chiffres a été envoyé à votre adresse email professionnelle.
+        <p class="desc">Un code de vérification à 6 chiffres a été envoyé à votre adresse email.
             Veuillez le renseigner ci-dessous.</p>
 
         {% if messages %}
@@ -247,9 +247,9 @@
         <form method="POST">
             {% csrf_token %}
             <div class="form-group">
-                <label>Adresse email professionnelle</label>
+                <label>Adresse email</label>
                 <div class="input-wrapper">
-                    <input type="email" class="form-control" name="email" placeholder="Ex: dr.benali@careconnect.tn"
+                    <input type="email" class="form-control" name="email" placeholder="Ex: nom@exemple.com"
                         value="{{ email_prefill }}" required>
                     <i class="fa-regular fa-envelope input-icon"></i>
                 </div>
@@ -266,7 +266,7 @@
                 vérification</button>
         </form>
 
-        <form method="POST" action="{% url 'users:resend_verification_code' %}" style="margin-top: 0.75rem;">
+        <form method="POST" action="{% url 'users:resend_verification_code_psy' %}" style="margin-top: 0.75rem;">
             {% csrf_token %}
             <input type="hidden" name="email" value="{{ email_prefill }}">
             <button type="submit" class="btn" style="background: white; color: var(--primary); border: 1.5px solid var(--primary); box-shadow: none;">
@@ -275,7 +275,7 @@
         </form>
 
         <div class="actions-footer">
-            Retour à la <a href="{% url 'users:medecin_login' %}">connexion</a>
+            Retour à la <a href="{% url 'users:login_psy' %}">connexion</a>
         </div>
     </div>
 </body>

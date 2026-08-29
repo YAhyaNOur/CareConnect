@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier mon profil - CareConnect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-display: 'Outfit', sans-serif;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #4f46e5;
+            --gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            --shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+            padding: 45px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            color: var(--text-dark);
+            margin-bottom: 0.4rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.08);
+            color: #047857;
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.6rem;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            color: var(--text-dark);
+            transition: all 0.2s ease;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        input[disabled] {
+            background: #f8fafc;
+            color: var(--text-muted);
+        }
+
+        .geo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 0.25rem;
+        }
+
+        .btn-geo {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0.65rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-geo:hover {
+            opacity: 0.92;
+        }
+
+        #geoStatus {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.94;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="top-bar">
+            <a href="{% url 'users:medecin_dashboard' %}" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Retour au tableau de bord
+            </a>
+        </div>
+
+        <h2>Modifier mon profil</h2>
+        <p class="subtitle">Mettez à jour vos informations professionnelles et la position GPS de votre cabinet.</p>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="success-box">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Prénom</label>
+                    <div class="input-with-icon">
+                        <i class="input-icon fa-regular fa-user"></i>
+                        <input type="text" name="firstname" value="{{ medecin.firstname }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nom</label>
+                    <div class="input-with-icon">
+                        <i class="input-icon fa-regular fa-user"></i>
+                        <input type="text" name="lastname" value="{{ medecin.lastname }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Email professionnel</label>
+                    <div class="input-with-icon">
+                        <i class="input-icon fa-regular fa-envelope"></i>
+                        <input type="email" value="{{ medecin.email }}" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Spécialité</label>
+                    <div class="input-with-icon">
+                        <i class="input-icon fa-solid fa-stethoscope"></i>
+                        <select name="specialite" required>
+                            <option value="Généraliste" {% if medecin.specialite == "Généraliste" %}selected{% endif %}>Médecin Généraliste</option>
+                            <option value="Pédiatre" {% if medecin.specialite == "Pédiatre" %}selected{% endif %}>Pédiatre</option>
+                            <option value="Cardiologue" {% if medecin.specialite == "Cardiologue" %}selected{% endif %}>Cardiologue</option>
+                            <option value="Dermatologue" {% if medecin.specialite == "Dermatologue" %}selected{% endif %}>Dermatologue</option>
+                            <option value="Dentiste" {% if medecin.specialite == "Dentiste" %}selected{% endif %}>Dentiste</option>
+                            <option value="Ophtalmologue" {% if medecin.specialite == "Ophtalmologue" %}selected{% endif %}>Ophtalmologue</option>
+                            <option value="Gynécologue" {% if medecin.specialite == "Gynécologue" %}selected{% endif %}>Gynécologue</option>
+                            <option value="ORL" {% if medecin.specialite == "ORL" %}selected{% endif %}>ORL</option>
+                            <option value="Gastro-entérologue" {% if medecin.specialite == "Gastro-entérologue" %}selected{% endif %}>Gastro-entérologue</option>
+                            <option value="Neurologue" {% if medecin.specialite == "Neurologue" %}selected{% endif %}>Neurologue</option>
+                            <option value="Rhumatologue" {% if medecin.specialite == "Rhumatologue" %}selected{% endif %}>Rhumatologue</option>
+                            <option value="Endocrinologue" {% if medecin.specialite == "Endocrinologue" %}selected{% endif %}>Endocrinologue</option>
+                            <option value="Pneumologue" {% if medecin.specialite == "Pneumologue" %}selected{% endif %}>Pneumologue</option>
+                            <option value="Urologue" {% if medecin.specialite == "Urologue" %}selected{% endif %}>Urologue</option>
+                            <option value="Psychiatre" {% if medecin.specialite == "Psychiatre" %}selected{% endif %}>Psychiatre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Téléphone</label>
+                    <div class="input-with-icon">
+                        <i class="input-icon fa-solid fa-phone"></i>
+                        <input type="tel" name="telephonenumber" value="{{ medecin.telephonenumber }}">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Localisation du cabinet</label>
+                    <div class="input-with-icon">
+                        <i class="input-icon fa-solid fa-location-dot"></i>
+                        <input type="text" name="localisation_cabinet" id="localisationCabinet"
+                            value="{{ medecin.localisation_cabinet }}">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Position GPS du cabinet</label>
+                    <div class="geo-box">
+                        <button type="button" id="btnLocaliser" class="btn-geo">
+                            <i class="fa-solid fa-location-crosshairs"></i> Utiliser ma position actuelle
+                        </button>
+                        <button type="button" id="btnGeocoder" class="btn-geo" style="margin-left:8px;">
+                            <i class="fa-solid fa-map-location-dot"></i> Géocoder cette adresse
+                        </button>
+                        <span id="geoStatus">
+                            {% if medecin.latitude and medecin.longitude %}
+                            <i class="fa-solid fa-check" style="color:#16a34a;"></i>
+                            Position actuelle enregistrée ({{ medecin.latitude|floatformat:4 }}, {{
+                            medecin.longitude|floatformat:4 }})
+                            {% else %}
+                            Aucune position enregistrée pour le moment.
+                            {% endif %}
+                        </span>
+                    </div>
+                    <input type="hidden" name="latitude" id="latitude" value="{{ medecin.latitude|default_if_none:'' }}">
+                    <input type="hidden" name="longitude" id="longitude" value="{{ medecin.longitude|default_if_none:'' }}">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fa-solid fa-floppy-disk"></i> Enregistrer les modifications
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const status = document.getElementById('geoStatus');
+        const addressField = document.getElementById('localisationCabinet');
+        const latitudeField = document.getElementById('latitude');
+        const longitudeField = document.getElementById('longitude');
+
+        function setCoordinates(lat, lng, message) {
+            latitudeField.value = String(lat);
+            longitudeField.value = String(lng);
+            status.innerHTML = '<i class="fa-solid fa-check" style="color:#16a34a;"></i> ' + message;
+        }
+
+        document.getElementById('btnLocaliser').addEventListener('click', function () {
+            if (!navigator.geolocation) {
+                status.textContent = "La géolocalisation n'est pas supportée par votre navigateur.";
+                return;
+            }
+
+            // La géolocalisation navigateur nécessite HTTPS hors localhost.
+            if (!window.isSecureContext &&
+                location.hostname !== 'localhost' &&
+                location.hostname !== '127.0.0.1' &&
+                location.hostname !== '[::1]') {
+                status.textContent =
+                    "La position GPS du navigateur nécessite HTTPS (ou localhost). " +
+                    "Vous pouvez utiliser « Géocoder cette adresse ».";
+                return;
+            }
+
+            status.textContent = "Localisation en cours...";
+
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    setCoordinates(lat, lng, "Nouvelle position prête à être enregistrée.");
+
+                    if (addressField && !addressField.value.trim()) {
+                        fetch(
+                            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1&accept-language=fr`
+                        )
+                            .then(res => {
+                                if (!res.ok) throw new Error('Reverse geocoding failed');
+                                return res.json();
+                            })
+                            .then(data => {
+                                if (data && data.display_name) {
+                                    addressField.value = data.display_name;
+                                }
+                            })
+                            .catch(() => {});
+                    }
+                },
+                function (error) {
+                    const messages = {
+                        1: "Autorisation de localisation refusée.",
+                        2: "Position indisponible.",
+                        3: "La demande de localisation a expiré."
+                    };
+                    status.textContent = messages[error.code] || "Impossible de récupérer votre position.";
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+            );
+        });
+
+        document.getElementById('btnGeocoder').addEventListener('click', function () {
+            const address = (addressField.value || '').trim();
+
+            if (!address) {
+                status.textContent = "Saisissez d'abord l'adresse du cabinet.";
+                addressField.focus();
+                return;
+            }
+
+            status.textContent = "Recherche des coordonnées de l'adresse...";
+
+            fetch(
+                `https://nominatim.openstreetmap.org/search?format=json&limit=1&addressdetails=1&accept-language=fr&q=${encodeURIComponent(address)}`
+            )
+                .then(res => {
+                    if (!res.ok) throw new Error('Geocoding failed');
+                    return res.json();
+                })
+                .then(results => {
+                    if (!results || !results.length) {
+                        status.textContent = "Adresse introuvable. Vérifiez l'adresse puis réessayez.";
+                        return;
+                    }
+
+                    setCoordinates(
+                        parseFloat(results[0].lat),
+                        parseFloat(results[0].lon),
+                        "Coordonnées trouvées. Cliquez sur « Enregistrer les modifications »."
+                    );
+                })
+                .catch(() => {
+                    status.textContent = "Impossible de géocoder l'adresse pour le moment.";
+                });
+        });
+    </script>
+
+</body>
+
+</html>
