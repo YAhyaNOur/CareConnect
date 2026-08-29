@@ -105,10 +105,7 @@ care/
 | `GEMINI_API_KEY` | Clé API pour l'analyse des symptômes via Google Gemini |
 Contributeurs
 
-Projet réalisé par :
-
-Nour Yahya et Roua Tbarki
 
 ## 👤 Auteur
 
-Projet réalisé par **Nour** — 4ᵉ année Data Science & AI Engineering, TEK-UP University.
+Projet réalisé par **Nour Yahya**  et **Roua Tbarki** — 4ᵉ année Data Science & AI Engineering, TEK-UP University.
