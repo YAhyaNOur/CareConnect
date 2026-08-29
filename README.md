@@ -1,71 +1,95 @@
 # CareConnect 🩺
 
-**Care** est une plateforme web (Django) de mise en relation entre patients et praticiens de santé (médecins et psychologues), avec prise de rendez-vous en ligne, recherche intelligente de praticien par symptômes (IA Gemini) et géolocalisation.
+**CareConnect** is a Django-based web platform connecting patients with healthcare practitioners (doctors and psychologists), featuring online appointment booking, AI-powered practitioner search by symptoms (Gemini), and geolocation.
 
-## ✨ Fonctionnalités
+---
 
-### Patient
-- Inscription / connexion avec vérification par e-mail (code de vérification)
-- Recherche de praticiens à partir des symptômes décrits (analyse via l'API Gemini) pour suggérer la spécialité adaptée
-- Tri des praticiens par proximité (distance GPS, formule de Haversine)
-- Prise de rendez-vous (au cabinet ou en téléconsultation)
-- Suivi de ses rendez-vous, demandes de report
-- Dépôt d'un avis (note + commentaire) après une consultation
-- Espace compte personnel
+## Table of Contents
 
-### Médecin
-- Inscription / connexion avec vérification par e-mail
-- Tableau de bord : calendrier, statistiques, rendez-vous du jour
-- Gestion des rendez-vous (créer, modifier, supprimer, confirmer/refuser)
-- Fiche patient (symptômes, diagnostic, notes, ordonnance)
-- Demande / réponse aux propositions de report de rendez-vous
-- Notifications par e-mail
-- Profil et localisation du cabinet
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Teleconsultation (Jitsi Meet)](#teleconsultation-jitsi-meet)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Author](#author)
 
-### Psychologue
-- Mêmes fonctionnalités que le médecin (inscription, dashboard, RDV, profil)
-- Upload de documents justificatifs à l'inscription
+---
 
-## 🛠️ Stack technique
+## Features
 
-- **Backend** : Django 5.2
-- **Base de données** : SQLite (par défaut)
-- **IA** : Google Generative AI (Gemini) — analyse des symptômes pour orienter vers la bonne spécialité
-- **Traitement d'images** : Pillow
-- **Visioconférence** : Jitsi Meet (instance publique `meet.jit.si`) — pour les téléconsultations
-- **Frontend** : Templates Django (HTML/CSS/JS)
+**Patient**
+- Sign up / log in with email verification (verification code)
+- Search for practitioners based on described symptoms (analyzed via the Gemini API) to suggest the appropriate specialty
+- Sort practitioners by proximity (GPS distance, Haversine formula)
+- Book appointments (in-office or teleconsultation)
+- Track appointments, request rescheduling
+- Leave a review (rating + comment) after a consultation
+- Personal account space
 
-### 🎥 Télévisite (Jitsi Meet)
+**Doctor**
+- Sign up / log in with email verification
+- Dashboard: calendar, statistics, today's appointments
+- Appointment management (create, edit, delete, confirm/decline)
+- Patient record (symptoms, diagnosis, notes, prescription)
+- Request / respond to rescheduling proposals
+- Email notifications
+- Profile and practice location
 
-Les rendez-vous de type *téléconsultation* utilisent [Jitsi Meet](https://meet.jit.si), une solution de visioconférence gratuite et sans compte à créer :
+**Psychologist**
+- Same features as the doctor role (sign-up, dashboard, appointments, profile)
+- Upload of supporting documents during registration
 
-- Chaque rendez-vous génère une room unique : `https://meet.jit.si/CareConnect-RDV-<id_du_rdv>`
-- Patient et praticien rejoignent automatiquement la même room grâce à l'ID du rendez-vous
-- Le bouton « Rejoindre la télévisite » n'est visible que si le RDV est **confirmé** et que l'heure actuelle se situe entre **10 minutes avant** et **60 minutes après** l'heure prévue
-- ⚠️ Le lien est prévisible (basé sur l'ID du RDV) et l'instance publique de Jitsi ne demande pas d'authentification — à sécuriser (ex. token aléatoire par RDV) avant tout usage en production avec des données de santé réelles.
+---
 
-## 📁 Structure du projet
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Backend** | Django 5.2 |
+| **Database** | SQLite (default) |
+| **AI** | Google Generative AI (Gemini) — symptom analysis to route patients to the right specialty |
+| **Image processing** | Pillow |
+| **Video conferencing** | Jitsi Meet (public instance `meet.jit.si`) — for teleconsultations |
+| **Frontend** | Django templates (HTML/CSS/JS) |
+
+---
+
+## Teleconsultation (Jitsi Meet)
+
+Appointments of type *teleconsultation* use [Jitsi Meet](https://meet.jit.si), a free video conferencing solution that requires no account creation:
+
+- Each appointment generates a unique room: `https://meet.jit.si/CareConnect-RDV-<appointment_id>`
+- Patient and practitioner automatically join the same room based on the appointment ID
+- The "Join teleconsultation" button is only visible when the appointment is **confirmed** and the current time falls between **10 minutes before** and **60 minutes after** the scheduled time
+- ⚠️ The room link is predictable (based on the appointment ID) and the public Jitsi instance requires no authentication — this should be secured (e.g. a random token per appointment) before any production use involving real health data.
+
+---
+
+## Project Structure
 
 ```
 care/
-├── config/          # Paramètres du projet Django (settings, urls, wsgi/asgi)
-├── users/           # Comptes patients, médecins, psychologues (inscription, auth, profils)
-├── appointments/    # Gestion des rendez-vous, avis, e-mails
-├── recherche/       # Recherche de praticiens (IA + géolocalisation)
-├── fichiers/        # Fichiers uploadés (justificatifs psy, etc.)
+├── config/          # Django project settings (settings, urls, wsgi/asgi)
+├── users/           # Patient, doctor and psychologist accounts (registration, auth, profiles)
+├── appointments/    # Appointment management, reviews, emails
+├── recherche/       # Practitioner search (AI + geolocation)
+├── fichiers/        # Uploaded files (psychologist credentials, etc.)
 ├── manage.py
 └── requirements.txt
 ```
 
-## ⚙️ Installation
+---
 
-1. **Cloner le projet et se placer dans le dossier**
+## Installation
+
+1. **Clone the project and enter the folder**
    ```bash
-   git clone <url-du-repo>
+   git clone <repo-url>
    cd care
    ```
 
-2. **Créer un environnement virtuel et l'activer**
+2. **Create and activate a virtual environment**
    ```bash
    python -m venv .venv
    # Windows
@@ -74,38 +98,40 @@ care/
    source .venv/bin/activate
    ```
 
-3. **Installer les dépendances**
+3. **Install dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Configurer les variables d'environnement**
+4. **Configure environment variables**
 
-   Créer un fichier `.env` à la racine du dossier `care/` avec :
+   Create a `.env` file at the root of the `care/` folder with:
    ```
-   GEMINI_API_KEY=votre_clé_api_gemini
+   GEMINI_API_KEY=your_gemini_api_key
    ```
 
-5. **Appliquer les migrations**
+5. **Apply migrations**
    ```bash
    python manage.py migrate
    ```
 
-6. **Lancer le serveur**
+6. **Run the server**
    ```bash
    python manage.py runserver
    ```
 
-   L'application est accessible sur `http://127.0.0.1:8000/`
+   The application is available at `http://127.0.0.1:8000/`
 
-## 🔑 Variables d'environnement
+---
+
+## Environment Variables
 
 | Variable | Description |
 |---|---|
-| `GEMINI_API_KEY` | Clé API pour l'analyse des symptômes via Google Gemini |
-Contributeurs
+| `GEMINI_API_KEY` | API key for symptom analysis via Google Gemini |
 
+---
 
-## 👤 Auteur
+## Author
 
-Projet réalisé par **Nour Yahya**  et **Roua Tbarki** — 4ᵉ année Data Science & AI Engineering, TEK-UP University.
+Project developed by **Nour Yahya** and **Roua Tbarki** — 4th-year Data Science & AI Engineering students, TEK-UP University.
